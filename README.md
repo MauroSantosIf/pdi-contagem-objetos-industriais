@@ -1,289 +1,226 @@
-# Contagem de Objetos Industriais — Processamento Digital de Imagens
+# Contagem de objetos em imagens industriais
 
-Projeto acadêmico da disciplina de **Processamento Digital de Imagens (PDI)**, desenvolvido para identificação e contagem automática de objetos industriais, utilizando Python, OpenCV e técnicas de visão computacional.
+Projeto da disciplina de Processamento Digital de Imagens (PDI). O trabalho compara duas formas de contar parafusos, porcas e arruelas em uma imagem: uma pipeline clássica de processamento de imagens, feita com OpenCV, e detectores YOLO, com um detector por classe.
 
-O projeto investiga diferentes métodos de preparação, processamento e reconhecimento de imagens, com o objetivo de desenvolver uma solução capaz de identificar e contabilizar objetos presentes em ambientes industriais.
+Repositório: https://github.com/MauroSantosIf/pdi-contagem-objetos-industriais
 
-## 1. Objetivo do projeto
+## 1. Objetivo
 
-O objetivo principal é desenvolver e avaliar uma solução computacional para identificar, classificar e contar objetos industriais em imagens.
+Contar, para cada imagem, quantos objetos de cada classe (`parafuso`, `porca`, `arruela`) ela contém, e medir o erro de cada método contra o GT (contagem de referência, derivada das anotações dos datasets).
 
-Inicialmente, o projeto contempla quatro categorias:
+As duas abordagens passam pelo mesmo avaliador (`scripts/avaliar.py`), com as mesmas divisões `train`, `valid` e `test`. As métricas são MAE (erro absoluto médio, em objetos por imagem), viés (previsto menos real; positivo quer dizer que o método superestima), acerto exato e acerto ±1 (percentual de imagens com erro 0 e com erro de no máximo 1 objeto).
 
-- **Parafusos:** identificação de diferentes tipos de parafusos;
-- **Porcas:** identificação e contagem de porcas;
-- **Arruelas:** identificação e contagem de arruelas;
-- **Vergalhões:** investigação de técnicas de contagem por identificação de extremidades.
+O dataset de vergalhões (`datasets/vergalhoes/`) faz parte do inventário inicial, mas tem só 3 imagens e não entra na base final nem nas comparações.
 
-A proposta envolve desde a preparação dos dados até a avaliação dos resultados obtidos por técnicas de processamento digital de imagens e visão computacional.
+## 2. Resumo dos resultados
 
-## 2. Tecnologias utilizadas
+Resultados no `test`: 96 imagens e 117 avaliações (imagem por classe). A pipeline clássica foi calibrada por dataset e o detector YOLO por classe, ambos só com `train` e `valid`. O `test` foi usado uma única vez em cada método, com a configuração já congelada.
 
-| Tecnologia | Aplicação |
-|---|---|
-| Python | Desenvolvimento dos algoritmos |
-| OpenCV | Processamento digital de imagens |
-| NumPy | Manipulação de dados e matrizes |
-| Pandas | Organização e análise dos resultados |
-| Matplotlib | Visualização de imagens e gráficos |
-| PyYAML | Leitura das configurações dos datasets |
-| Google Colab | Ambiente de execução dos notebooks |
-| Git e GitHub | Versionamento e colaboração |
+Fonte dos números desta seção: `resultados/yolo/comparacao/comparacao_metricas_sem_exclusoes.csv`. Os valores da pipeline clássica conferem com `resultados/avaliacao/classico_test/metricas.csv`, e os do YOLO com `resultados/yolo/avaliacao/yolo26s_test/metricas.csv`.
 
-As tecnologias poderão ser ampliadas conforme a evolução do projeto.
+### Por classe e no geral
 
-## 3. Datasets utilizados
+| Escopo | n | MAE clássica | MAE YOLO | Viés clássica | Viés YOLO | Acerto exato clássica (%) | Acerto exato YOLO (%) | Acerto ±1 clássica (%) | Acerto ±1 YOLO (%) |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Geral | 117 | 4,03 | 0,85 | 0,43 | -0,22 | 23,93 | 62,39 | 45,30 | 82,91 |
+| Arruela | 62 | 6,11 | 1,13 | 0,85 | -0,52 | 22,58 | 61,29 | 35,48 | 74,19 |
+| Parafuso | 40 | 1,55 | 0,45 | -0,30 | -0,05 | 27,50 | 62,50 | 62,50 | 95,00 |
+| Porca | 15 | 2,07 | 0,80 | 0,60 | 0,53 | 20,00 | 66,67 | 40,00 | 86,67 |
 
-Foram selecionados quatro datasets com imagens de objetos industriais.
+### Por classe e dataset (MAE)
 
-Durante a Fase 1, esses conjuntos foram organizados, auditados e validados estruturalmente.
+| Classe | Dataset | n | MAE clássica | MAE YOLO |
+|---|---|---:|---:|---:|
+| Arruela | `nutsnbolts` | 6 | 1,67 | 3,17 |
+| Arruela | `washers_hardee` | 56 | 6,59 | 0,91 |
+| Parafuso | `nutsnbolts` | 6 | 2,00 | 0,67 |
+| Parafuso | `roboflow_screws` | 25 | 1,28 | 0,32 |
+| Parafuso | `screws_and_nuts` | 9 | 2,00 | 0,67 |
+| Porca | `nutsnbolts` | 6 | 2,50 | 1,67 |
+| Porca | `screws_and_nuts` | 9 | 1,78 | 0,22 |
 
-| Dataset | Categoria | Imagens | Objetos anotados | Versão selecionada |
-|---|---|---:|---:|---|
-| Roboflow Screws | Parafusos | 463 | 3.230 | `revisado.zip` |
-| NutsNBolts | Porcas, parafusos e arruelas | 107 | 2.832 | `filtrado.zip` |
-| Washers Hardee | Arruelas | 402 | 3.949 | `deduplicado.zip` |
-| Rebar Counting V1 | Vergalhões | 3 | 26 | `original.zip` |
-| **Total** | | **975** | **10.037** | |
+O YOLO tem MAE menor em todos os recortes, menos nas arruelas de `nutsnbolts`. Esse caso é discutido na seção 7.
 
-Os valores representam as quantidades de instâncias anotadas nos datasets, conforme os rótulos existentes.
+### Teste de Wilcoxon pareado (erro absoluto por imagem e classe)
 
-### Documentação individual
+Fonte: `resultados/yolo/comparacao/pareada_wilcoxon_sem_exclusoes.csv`.
 
-- [Dataset de parafusos](datasets/parafusos/README.md)
-- [Dataset NutsNBolts](datasets/porcas/README.md)
-- [Dataset de arruelas](datasets/arruelas/README.md)
-- [Dataset de vergalhões](datasets/vergalhoes/README.md)
+| Classe | n | YOLO erra menos | Empate | Clássica erra menos | p-valor |
+|---|---:|---:|---:|---:|---:|
+| Todas | 117 | 76 | 29 | 12 | menor que 0,0001 |
+| Arruela | 62 | 43 | 13 | 6 | menor que 0,0001 |
+| Parafuso | 40 | 24 | 12 | 4 | 0,0002 |
+| Porca | 15 | 9 | 4 | 2 | 0,0796 |
 
-Os datasets estão organizados em diretórios específicos, com preservação das versões originais e das versões tratadas durante a Fase 1.
+O arquivo grava o p-valor arredondado a 4 casas, por isso aparece 0,0 para "Todas" e "Arruela". Para porca, o p-valor de 0,0796 não permite afirmar diferença significativa a 5%.
 
-A utilização e redistribuição dos arquivos devem respeitar as licenças das respectivas fontes.
+### Erro na contagem total por imagem
 
-## 4. Estrutura do repositório
+Soma das três classes em cada imagem. Fonte: `resultados/yolo/comparacao/total_por_imagem_sem_exclusoes.csv`.
 
-A estrutura principal está organizada da seguinte forma:
+| Dataset | Imagens | Peças por imagem (média) | Erro médio clássica | Erro médio YOLO |
+|---|---:|---:|---:|---:|
+| `nutsnbolts` | 6 | 27,83 | 3,50 | 2,50 |
+| `roboflow_screws` | 25 | 6,72 | 1,28 | 0,32 |
+| `screws_and_nuts` | 9 | 10,67 | 2,67 | 0,89 |
+| `washers_hardee` | 56 | 8,98 | 6,59 | 0,91 |
+
+### Configurações congeladas
+
+- Pipeline clássica: `resultados/classico/config_final.json`, com SHA-256 `049ff32f47663757df09fbaca16da09a49b74d535a45df668eac8ed721cbe2fd`. Calibração por dataset, com busca em grade de 32 a 48 combinações.
+- Detector YOLO: `resultados/yolo/config_yolo_final.json`, com SHA-256 `2e4858358bb3c04ceeb409e75ac3c0e819d88cf28d62c134dfab7fec22df590d`. Modelo `yolo26s`, no máximo 100 épocas com `patience = 20`, `batch = 16`, `imgsz = 640`, semente 42. Limiares de confiança calibrados no `valid`: parafuso 0,30, porca 0,15 e arruela 0,80.
+
+## 3. Organização do repositório
 
 ```text
 pdi-contagem-objetos-industriais/
-│
 ├── README.md
-├── .gitignore
-│
-├── datasets/
-│   ├── parafusos/
-│   │   ├── README.md
-│   │   └── roboflow_screws/
-│   │       ├── original.zip
-│   │       └── revisado.zip
-│   │
-│   ├── porcas/
-│   │   ├── README.md
-│   │   └── nutsnbolts/
-│   │       ├── original.zip
-│   │       └── filtrado.zip
-│   │
-│   ├── arruelas/
-│   │   ├── README.md
-│   │   └── washers_hardee/
-│   │       ├── original.zip
-│   │       ├── revisado.zip
-│   │       └── deduplicado.zip
-│   │
-│   └── vergalhoes/
-│       ├── README.md
-│       └── rebar_counting_v1/
-│           └── original.zip
-│
+├── datasets/                 # ZIPs originais e tratados dos datasets (formato YOLO)
+│   ├── arruelas/washers_hardee/
+│   ├── parafusos/roboflow_screws/
+│   ├── porcas/nutsnbolts/
+│   ├── porcas/screws_and_nuts/
+│   └── vergalhoes/rebar_counting_v1/
+├── scripts/
+│   ├── preparar_dados.py             # Fase 1: gera data_final/ e o GT de contagem
+│   ├── avaliar.py                    # Fase 2: avaliador comum aos dois métodos
+│   ├── testar_avaliar.py             # Fase 2: testes do avaliador
+│   ├── preparar_auditoria_teste.py   # Fase 2: material para auditar o GT do test
+│   ├── classico.py                   # Fase 3: pipeline clássica
+│   └── yolo_local.py                 # Fase 4: treino, calibração e test do YOLO em máquina local
 ├── notebooks/
-│   └── fase1_dataset_ground_truth.ipynb
-│
-└── docs/
-    ├── datasets.md
-    └── fase1_metodologia.md
+│   ├── etapa3_pipeline_classica.ipynb      # apresenta os resultados da pipeline clássica
+│   ├── etapa4_yolo_colab.ipynb             # treino e avaliação do YOLO no Colab (resultado oficial)
+│   ├── etapa4b_comparacao_colab.ipynb      # comparação clássica x YOLO e demonstração
+│   ├── fase1_multidataset_consolidada.ipynb
+│   └── fase2_preprocessamento_multidataset_sincronizado.ipynb
+├── docs/                     # metodologia e inventário dos datasets
+├── resultados/
+│   ├── avaliacao/            # métricas da pipeline clássica (valid, test e test com exclusões)
+│   ├── auditoria/            # planilha de auditoria do GT do test e lista de exclusões
+│   ├── classico/             # configuração congelada, previsões, histogramas e figuras
+│   ├── yolo/                 # resultado oficial do YOLO (Colab): config, previsões, métricas, comparação
+│   └── yolo_local_parcial/   # execução local anterior e incompleta (ignorada pelo Git)
+├── data_final/               # gerado por preparar_dados.py (ignorado pelo Git)
+└── data_final.zip            # idem
 ```
 
-A estrutura poderá ser ampliada conforme a implementação das próximas fases.
+`data_final/`, `data_final.zip`, `data_extracted/`, `resultados/yolo/pesos/`, `resultados/yolo/runs/` e `resultados/yolo_local_parcial/` estão no `.gitignore`. Os pesos do YOLO ficam em `resultados/yolo/pesos/` e não vão para o Git.
 
-## 5. Etapas do projeto
+## 4. Datasets
 
-O desenvolvimento foi dividido em etapas para facilitar a organização das atividades e a validação dos resultados.
+A base final (`data_final/`) usa quatro datasets. As classes de cada um são mapeadas para `parafuso`, `porca` e `arruela`. Contagens de `data_final/contagens_gt.csv`, depois do agrupamento de imagens parecidas e do sorteio por grupo:
 
-### Fase 1 — Organização, Validação e Ground Truth
+| Dataset | Classes usadas | `train` | `valid` | `test` | Imagens | Objetos |
+|---|---|---:|---:|---:|---:|---:|
+| `roboflow_screws` | parafuso | 335 | 25 | 25 | 385 | 2.715 |
+| `nutsnbolts` | parafuso, porca, arruela | 78 | 6 | 6 | 90 | 2.370 |
+| `screws_and_nuts` | parafuso, porca | 97 | 9 | 9 | 115 | 1.984 |
+| `washers_hardee` | arruela | 283 | 56 | 56 | 395 | 3.911 |
+| **Total** | | **793** | **96** | **96** | **985** | **10.980** |
 
-**Status: concluída dentro do escopo de preparação e validação estrutural.**
+O GT tem 1.280 linhas (dataset, divisão, imagem e classe). Cada detector YOLO treina com as imagens do `train` dos datasets que rotulam a classe dele: parafuso 510 imagens, porca 175 e arruela 361.
 
-**Responsável:** Vivian Beatriz.
+As divisões foram sorteadas por grupos de imagens parecidas (nome de origem e dHash), para não haver vazamento entre `train`, `valid` e `test`. O detalhe está em `scripts/preparar_dados.py` e em `data_final/manifesto.json`.
 
-Esta fase compreendeu:
+Documentação de cada dataset:
 
-1. Levantamento e organização dos datasets.
-2. Identificação das classes e dos formatos de anotação.
-3. Validação estrutural dos rótulos.
-4. Auditoria de imagens duplicadas.
-5. Correção e filtragem de inconsistências.
-6. Preservação dos dados originais.
-7. Geração do Ground Truth.
-8. Consolidação dos resultados e das limitações.
+- [Parafusos (Roboflow Screws)](datasets/parafusos/README.md)
+- [Porcas (NutsNBolts e Screws and Nuts)](datasets/porcas/README.md)
+- [Arruelas (Washers Hardee)](datasets/arruelas/README.md)
+- [Vergalhões (Rebar Counting V1)](datasets/vergalhoes/README.md)
+- [Inventário geral](docs/datasets.md)
 
-#### Resultados
+A utilização e a redistribuição dos arquivos devem respeitar as licenças das fontes.
 
-| Indicador | Resultado |
-|---|---:|
-| Datasets analisados | 4 |
-| Imagens processadas | 975 |
-| Instâncias anotadas | 10.037 |
-| Problemas estruturais restantes | 0 |
-| Grupos de duplicatas exatas restantes | 0 |
+## 5. Fases do projeto e como reproduzir
 
-Os quatro datasets passaram nos critérios de integridade estrutural e ausência de duplicatas binárias.
+Os comandos abaixo partem da raiz do repositório, com o ambiente virtual em `.venv`. O repositório não tem `requirements.txt`. As bibliotecas usadas estão nos `import` dos scripts: OpenCV, NumPy, Pandas, PyYAML, Matplotlib e SciPy, além de `torch` e `ultralytics` para o YOLO.
 
-Entretanto, o dataset de vergalhões possui somente três imagens, todas no conjunto de treinamento. Por isso, permanece classificado como exploratório.
+### Fase 1: preparação dos dados
 
-Também foram identificados dois grupos com nomes de origem compartilhados entre diferentes conjuntos no dataset de arruelas. Isso exige cautela na investigação de imagens visualmente relacionadas antes do treinamento.
+`scripts/preparar_dados.py` lê os ZIPs de `datasets/`, unifica as classes, agrupa imagens parecidas, sorteia as divisões com semente fixa, grava `data_final/` e o GT (`data_final/contagens_gt.csv`) e compacta tudo em `data_final.zip`. Apaga e recria essas saídas a cada execução, com o mesmo resultado.
 
-**Notebook:** [Fase 1 — Organização e Ground Truth](notebooks/fase1_dataset_ground_truth.ipynb)
-
-**Documentação:** [Metodologia da Fase 1](docs/fase1_metodologia.md)
-
-### Fase 2 — Pré-processamento de Imagens
-
-**Status: planejada.**
-
-Esta fase terá como objetivo investigar e aplicar técnicas para preparar as imagens antes do reconhecimento dos objetos.
-
-Entre as técnicas previstas estão:
-
-- Conversão para escala de cinza;
-- Redução de ruído por filtros;
-- Correção de iluminação;
-- Equalização de histograma;
-- Comparação entre imagens originais e processadas.
-
-As técnicas serão avaliadas para determinar quais são adequadas às características dos datasets e à estratégia de reconhecimento adotada.
-
-### Fase 3 — Reconhecimento e Contagem
-
-**Status: planejada.**
-
-Esta fase investigará técnicas para localizar, identificar e contabilizar os objetos industriais presentes nas imagens.
-
-A abordagem de reconhecimento será definida conforme os experimentos e as necessidades do projeto.
-
-Poderão ser consideradas técnicas clássicas de visão computacional e modelos de detecção de objetos.
-
-### Fase 4 — Avaliação dos Resultados
-
-**Status: planejada.**
-
-A etapa de avaliação deverá comparar as contagens produzidas pelo sistema com as referências do Ground Truth.
-
-Poderão ser utilizadas métricas de erro de contagem e medidas de desempenho relacionadas à detecção e à classificação.
-
-A escolha das métricas dependerá da abordagem efetivamente implementada.
-
-## 6. Como executar a Fase 1
-
-O notebook da Fase 1 foi desenvolvido para execução no Google Colab.
-
-### Requisitos
-
-- Conta Google para utilizar o Colab;
-- Python e bibliotecas utilizadas no notebook;
-- Acesso aos arquivos ZIP dos datasets.
-
-### Procedimento
-
-1. Acesse o notebook [Fase 1 — Organização e Ground Truth](notebooks/fase1_dataset_ground_truth.ipynb).
-2. Abra o arquivo no Google Colab.
-3. Organize os datasets na pasta esperada do Google Drive.
-4. Autorize o acesso ao Drive quando solicitado.
-5. Execute as células na ordem apresentada.
-6. Confira os relatórios consolidados e os critérios de aceitação.
-
-O notebook utiliza, por padrão, a seguinte pasta:
-
-```text
-/content/drive/MyDrive/PDI_Contagem_Objetos/
+```bash
+.venv/bin/python scripts/preparar_dados.py
 ```
 
-Dentro dela, os arquivos ZIP devem estar organizados na pasta `datasets/`, respeitando a estrutura indicada neste README.
+Os ZIPs de entrada (`revisado.zip`, `filtrado.zip`, `deduplicado.zip`, `original.zip`) vêm da organização e validação dos datasets feita antes, descrita em `docs/fase1_metodologia.md`.
 
-**Observação:** embora os datasets também estejam disponíveis no repositório, a versão atual do notebook utiliza caminhos do Google Drive. A execução diretamente a partir do clone do GitHub requer adaptação dos caminhos de entrada.
+### Fase 2: avaliador
 
-### Resultados gerados
+`scripts/avaliar.py` recebe um CSV de previsões (`metodo`, `dataset`, `split`, `imagem`, `classe`, `contagem`), casa cada linha com o GT de forma estrita e calcula as métricas. Os testes ficam em `scripts/testar_avaliar.py`. A auditoria do GT do `test` usa `scripts/preparar_auditoria_teste.py`, que desenha as caixas sobre as imagens e cria a planilha em `resultados/auditoria/`.
 
-A execução produz arquivos como:
+```bash
+.venv/bin/python scripts/testar_avaliar.py
+.venv/bin/python scripts/avaliar.py --previsoes <previsoes.csv> --nome-execucao <nome> --split valid
+.venv/bin/python scripts/preparar_auditoria_teste.py
+```
 
-- `ground_truth.csv`;
-- `problemas_anotacoes.csv`;
-- `duplicatas_exatas.csv`;
-- `suspeitas_entre_splits.csv`;
-- `resumo.json`;
-- `consolidado.csv`;
-- `criterios_aceitacao.csv`;
-- `manifesto_execucao.json`.
+### Fase 3: pipeline clássica
 
-Os relatórios são armazenados em uma pasta identificada pela data e pelo horário da execução.
+`scripts/classico.py` implementa 7 etapas: pré-processamento, segmentação, morfologia, separação por watershed, componentes conectados, classificação por regras e contagem por classe. A calibração é por dataset e usa só `train` e `valid`. O notebook `notebooks/etapa3_pipeline_classica.ipynb` mostra os resultados.
 
-## 7. Ground Truth e qualidade dos dados
+```bash
+.venv/bin/python scripts/classico.py --modo calibrar        # calibra e congela config_final.json
+.venv/bin/python scripts/classico.py --modo avaliar-valid   # reaplica a configuração no valid
+.venv/bin/python scripts/classico.py --modo avaliar-test --hash-esperado <SHA256>   # test, uma única vez
+```
 
-O Ground Truth corresponde às referências utilizadas para contabilizar os objetos em cada imagem.
+O modo `calibrar` sobrescreve `resultados/classico/`. O resultado oficial já está gravado ali e não deve ser regerado para ajustar nada.
 
-Na Fase 1, os valores foram derivados das anotações fornecidas pelos datasets.
+### Fase 4: detector YOLO
 
-As verificações realizadas abrangeram:
+Um detector `yolo26s` por classe. A contagem de uma imagem é o número de caixas com confiança maior ou igual ao limiar da classe. O limiar é escolhido no `valid`, pelo menor MAE (empate: menor |viés|, depois menor limiar), e congelado antes do `test`.
 
-- Validade dos identificadores de classe;
-- Estrutura das anotações YOLO Detection e Segmentation;
-- Limites geométricos das coordenadas;
-- Correspondência entre imagens e rótulos;
-- Identificação de anotações inválidas;
-- Detecção de duplicatas exatas com SHA-256.
+O resultado oficial vem do Colab, com GPU T4:
 
-A aprovação estrutural não garante que todos os objetos visíveis tenham sido anotados corretamente.
+1. Suba `data_final.zip` e uma cópia idêntica de `scripts/avaliar.py` para `MyDrive/PDI_Contagem_Objetos/etapa4/`.
+2. Execute `notebooks/etapa4_yolo_colab.ipynb` de cima para baixo. As saídas ficam em `etapa4/saidas/`.
+3. Copie `etapa4/saidas/` para `resultados/yolo/`. O arquivo `manifesto_saidas.json` lista o SHA-256 de cada arquivo.
 
-Antes do treinamento, ainda deverão ser consideradas a qualidade visual das anotações, a semelhança entre imagens e a padronização das classes.
+`scripts/yolo_local.py` repete o mesmo fluxo em máquina local, com padrões de treino mais leves (`yolo26n`, 50 épocas, `patience = 10`, `batch = 8`). Por isso, o resultado dele não substitui o do Colab.
 
-## 8. Documentação
+```bash
+.venv/bin/python scripts/yolo_local.py tudo      # treinar, calibrar e testar
+.venv/bin/python scripts/yolo_local.py previa --classe porca   # compara clássica e YOLO no valid, sem tocar no test
+```
 
-Os documentos do projeto estão organizados em `docs/`.
+### Fase 4B: comparação
+
+`notebooks/etapa4b_comparacao_colab.ipynb` junta as previsões do `test` dos dois métodos, calcula as métricas, faz a análise pareada com Wilcoxon, mostra as 10 piores imagens do YOLO e gera os gráficos. Precisa de `resultados/classico/previsoes_test.csv` em `etapa4/classico/` no Drive, além do que a Fase 4 já deixou lá. Só lê resultados congelados. As saídas estão em `resultados/yolo/comparacao/`.
+
+### Estudo anterior de pré-processamento
+
+Os notebooks `fase1_multidataset_consolidada.ipynb` e `fase2_preprocessamento_multidataset_sincronizado.ipynb` e os documentos `docs/fase1_*.md` e `docs/fase2_*.md` registram a organização e a validação dos datasets e um estudo exploratório de pré-processamento (escala de cinza, mediana, correção de iluminação, equalização e CLAHE). A numeração dos documentos antigos é diferente da dos scripts: lá, a Fase 2 é o pré-processamento, e nos scripts a Fase 2 é o avaliador. A base final não usa as imagens pré-processadas por esse estudo, e a pipeline clássica tem o pré-processamento próprio dela (etapa 1).
+
+Esses notebooks rodam no Google Colab, com os ZIPs de `datasets/` no Drive, em `MyDrive/PDI_Contagem_Objetos/`. Para rodar a partir de um clone do repositório, é preciso adaptar os caminhos.
+
+## 6. Documentação
 
 - [Inventário dos datasets](docs/datasets.md)
-- [Metodologia da Fase 1](docs/fase1_metodologia.md)
+- [Metodologia da organização e validação dos datasets](docs/fase1_metodologia.md)
+- [Metodologia do estudo de pré-processamento](docs/fase2_metodologia.md)
+- [Resultados do estudo de pré-processamento](docs/fase2_resultados.md)
+- [Notebooks](notebooks/README.md)
 
-Cada dataset possui também um README próprio, contendo informações sobre sua origem, versões, classes, auditorias e limitações.
+## 7. Limitações e observações
 
-## 9. Limitações atuais
+1. O detector YOLO usa um limiar por classe, calibrado no `valid`. Na arruela, o `valid` é dominado por `washers_hardee` (56 das 62 imagens). O limiar de 0,80 escolhido assim piorou as arruelas de `nutsnbolts`, que são o único recorte em que o YOLO ficou pior que a pipeline clássica (MAE 3,17 contra 1,67, em 6 imagens).
+2. Nessas imagens, várias detecções têm confiança praticamente igual ao limiar. Nas detecções congeladas do `test`, duas imagens de `nutsnbolts` têm uma detecção de arruela com confiança 0,791, logo abaixo de 0,80 (`resultados/yolo/deteccoes/deteccoes_test_arruela.json`). Na releitura feita no notebook 4B, imagem por imagem, apareceram detecções em 0,800 e 0,819. Em 2 imagens do `test`, a contagem refeita dessa forma diferiu da congelada em 1 a 2 arruelas. Essas confianças da releitura vieram da execução no Colab, cuja saída não foi salva no notebook. O resultado oficial é a execução congelada, em lote.
+3. As duas abordagens não foram calibradas no mesmo nível. A pipeline clássica foi calibrada por dataset e o YOLO por classe.
+4. Para porca, a redução do erro não foi estatisticamente significativa no teste de Wilcoxon (p = 0,0796), porque o `test` tem só 15 avaliações dessa classe.
+5. O GT do `test` não passou por auditoria manual. A planilha `resultados/auditoria/auditoria_teste.csv` está com `gt_completo` em branco e `exclusoes_teste.csv` só tem o cabeçalho. Algumas imagens de `washers_hardee` parecem ter arruelas sem caixa.
+6. `washers_hardee` contém imagens de bancos de fotos e um infográfico, fora do domínio industrial.
 
-As principais limitações identificadas até o momento são:
+Outras observações:
 
-1. O conjunto de vergalhões possui apenas três imagens, sem validação ou teste.
-2. O dataset NutsNBolts possui somente cinco imagens no conjunto de validação e cinco no conjunto de teste.
-3. Os datasets apresentam classes e formatos de anotação diferentes, que ainda precisam ser padronizados para um treinamento conjunto.
-4. A validação estrutural não substitui uma inspeção visual completa.
-5. A identificação por SHA-256 não detecta necessariamente imagens visualmente semelhantes.
-6. As licenças de utilização e redistribuição devem ser verificadas nas fontes originais.
-
-Essas limitações serão consideradas durante a implementação das próximas etapas.
-
-## 10. Situação atual
-
-| Etapa | Situação |
-|---|---|
-| Organização dos datasets | Concluída |
-| Auditoria e validação estrutural | Concluída |
-| Geração do Ground Truth | Concluída |
-| Documentação individual dos datasets | Concluída |
-| Pré-processamento de imagens | Planejado |
-| Reconhecimento e contagem | Planejado |
-| Avaliação de desempenho | Planejada |
-
-O projeto encontra-se com a **Fase 1 concluída e documentada**, dispondo de quatro datasets organizados e dos respectivos resultados de validação estrutural.
-
-A próxima etapa será a implementação e avaliação das técnicas de pré-processamento.
+- `nutsnbolts` tem só 6 imagens em `valid` e 6 em `test`, o que deixa as métricas desse dataset instáveis.
+- Os notebooks do repositório estão sem as saídas da execução no Colab. A evidência da execução são os arquivos de `resultados/`.
+- A validação estrutural dos datasets não substitui uma inspeção visual completa das anotações.
+- A identificação de duplicatas por SHA-256 não detecta imagens apenas parecidas. Por isso, a Fase 1 também agrupa por nome de origem e dHash.
 
 ---
 
-**Projeto:** Contagem de Objetos Industriais  
-**Disciplina:** Processamento Digital de Imagens  
-**Repositório:** https://github.com/MauroSantosIf/pdi-contagem-objetos-industriais
+**Projeto:** Contagem de Objetos em Imagens Industriais  
+**Disciplina:** Processamento Digital de Imagens
