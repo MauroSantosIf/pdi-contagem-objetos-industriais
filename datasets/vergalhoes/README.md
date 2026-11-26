@@ -125,4 +125,112 @@ Essa quantidade é insuficiente para representar adequadamente as diferentes con
 
 Entre essas condições estão:
 
-- Diferentes quant
+- Diferentes quantidades de vergalhões;
+- Variações de iluminação;
+- Mudanças de perspectiva;
+- Sobreposição de objetos;
+- Alterações de escala;
+- Diferentes cenários e fundos.
+
+A pequena quantidade de exemplos limita a capacidade de avaliar a generalização de um modelo.
+
+### 7.2. Ausência de validação e teste
+
+As três imagens disponíveis pertencem exclusivamente ao conjunto `train`.
+
+Não existem imagens nos conjuntos `valid` e `test`.
+
+Por esse motivo, não é possível realizar uma avaliação independente e confiável de desempenho utilizando somente esse dataset.
+
+### 7.3. Limitação da classe anotada
+
+O conjunto utiliza a classe `rebar edge`, correspondente à extremidade do vergalhão.
+
+Essa abordagem pode ser adequada para imagens de feixes de barras observados pelas extremidades, mas não representa necessariamente a identificação de um vergalhão completo.
+
+A estratégia de contagem deverá considerar essa característica.
+
+### 7.4. Qualidade visual das anotações
+
+A validação realizada foi estrutural.
+
+Ela não garante que todas as extremidades visíveis estejam corretamente anotadas.
+
+Uma inspeção visual complementar será necessária caso o conjunto seja utilizado em experimentos de reconhecimento e contagem.
+
+## 8. Decisão técnica da equipe
+
+Durante a Fase 1, foi decidido **preservar o dataset original sem alterações**.
+
+Também foi decidido não dividir artificialmente as três imagens entre treinamento, validação e teste, pois essa divisão produziria conjuntos extremamente pequenos e sem representatividade suficiente.
+
+O dataset permanece disponível para:
+
+- Análises exploratórias;
+- Inspeção de anotações;
+- Testes iniciais de leitura e processamento de imagens;
+- Investigação de estratégias de contagem por extremidades;
+- Comparação com novos datasets de vergalhões.
+
+A utilização para treinamento definitivo dependerá da obtenção de novas imagens representativas.
+
+## 9. Ground Truth
+
+O Ground Truth foi construído a partir das 26 anotações válidas existentes no dataset.
+
+Para cada imagem, o notebook registra:
+
+- Identificador do dataset;
+- Caminho da imagem;
+- Conjunto de origem;
+- Quantidade de extremidades anotadas;
+- Existência de inconsistências estruturais;
+- Necessidade de revisão.
+
+O Ground Truth é gerado pelo notebook:
+
+`notebooks/fase1_dataset_ground_truth.ipynb`
+
+Os relatórios da validação são armazenados no diretório de resultados da Fase 1.
+
+**Importante:** as 26 instâncias representam extremidades anotadas. Sua interpretação como quantidade de barras depende das condições das imagens.
+
+## 10. Recomendações para ampliação
+
+Antes de utilizar o dataset para treinamento e avaliação de um modelo de contagem, recomenda-se:
+
+1. Buscar novos datasets públicos com imagens de vergalhões.
+2. Verificar as licenças e as condições de utilização.
+3. Coletar imagens com maior diversidade de perspectivas e iluminação.
+4. Priorizar imagens nítidas e com anotações consistentes.
+5. Definir se a contagem será realizada por extremidades ou pela identificação da barra completa.
+6. Padronizar as classes e os formatos de anotação.
+7. Criar conjuntos independentes de treinamento, validação e teste.
+8. Reexecutar a auditoria e a validação estrutural da Fase 1.
+
+A ampliação deverá ser documentada, preservando a versão original utilizada nesta etapa.
+
+## 11. Estado atual
+
+**Status: exploratório, sem conjuntos de validação e teste.**
+
+O dataset apresentou:
+
+- 3 imagens;
+- 26 extremidades anotadas;
+- Nenhum problema estrutural identificado;
+- Nenhuma duplicata exata;
+- Todas as imagens no conjunto de treinamento.
+
+A versão original foi preservada para rastreabilidade.
+
+O conjunto está disponível para experimentação, mas não é considerado suficiente para treinamento e avaliação confiáveis de um modelo de reconhecimento de vergalhões.
+
+---
+
+**Projeto:** Contagem de Objetos Industriais  
+**Disciplina:** Processamento Digital de Imagens  
+**Etapa:** Fase 1 — Organização, Validação e Ground Truth  
+**Dataset:** Rebar Counting V1  
+**Versão selecionada:** `original.zip`  
+**Classificação:** Exploratório
