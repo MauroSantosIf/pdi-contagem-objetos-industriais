@@ -159,7 +159,7 @@ Para cada imagem, foram registrados:
 
 O Ground Truth é gerado pelo notebook:
 
-`notebooks/fase1_dataset_ground_truth.ipynb`
+`notebooks/fase1_multidataset_consolidada.ipynb`
 
 Os relatórios também estão disponíveis na pasta de resultados da Fase 1 no Google Drive.
 
@@ -173,7 +173,7 @@ Apesar de ter passado na validação estrutural, o dataset possui característic
 
 O conjunto apresenta anotações nos formatos YOLO Detection e YOLO Segmentation.
 
-Antes do treinamento de um modelo que utilize apenas um desses formatos, será necessário definir uma estratégia de padronização.
+Na base final de contagem, `scripts/preparar_dados.py` trata os dois formatos: os polígonos viram a caixa que os envolve.
 
 Anotações de segmentação não devem ser interpretadas diretamente como caixas delimitadoras sem a conversão apropriada.
 
@@ -181,9 +181,7 @@ Anotações de segmentação não devem ser interpretadas diretamente como caixa
 
 As quatro classes representam diferentes tipos de parafusos.
 
-Em um modelo de contagem genérica de objetos industriais, poderá ser necessário agrupá-las sob uma classe comum de parafusos.
-
-Essa decisão deverá ser documentada antes de qualquer treinamento conjunto.
+Na base final de contagem, as quatro classes foram agrupadas na classe `parafuso`, no mapeamento de `scripts/preparar_dados.py`.
 
 ### 9.3. Qualidade visual das anotações
 
@@ -210,7 +208,13 @@ A versão `revisado.zip` atende aos critérios de:
 
 O dataset está organizado e disponível no repositório para utilização nas próximas etapas, observadas as condições de licença da fonte.
 
-A aplicação de técnicas de pré-processamento e o treinamento de modelos serão tratados nas fases posteriores.
+O dataset foi usado na base final de contagem (seção 11), na pipeline clássica e no treino do detector YOLO de parafuso.
+
+## 11. Uso na base final de contagem
+
+`scripts/preparar_dados.py` lê `roboflow_screws/revisado.zip` e usa todas as classes como `parafuso`. O script exclui por regra as 3 imagens cujo nome contém `Parafusos_Dourados_0089`. O repositório não registra o motivo dessa exclusão. Das 460 imagens restantes, 385 entram na base final (335 em `train`, 25 em `valid` e 25 em `test`). As outras 75 foram omitidas: em `valid` e `test` o script mantém só a primeira imagem de cada grupo de imagens parecidas.
+
+A base final tem 2.715 objetos deste dataset, dos quais 2.677 vêm de polígonos e 38 de caixas. Os números vêm de `data_final/manifesto.json`, gerado pelo script.
 
 ---
 
