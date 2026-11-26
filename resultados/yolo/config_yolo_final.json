@@ -1,0 +1,75 @@
+{
+  "metodo": "yolo26s",
+  "congelado_em_utc": "2026-11-26T12:28:45.413980+00:00",
+  "nota": "Congelado apos treino e calibracao em train/valid. O split test nao foi usado ate este ponto.",
+  "modelo": "yolo26s.pt",
+  "modelo_pesos_sha256": "646f8bc3fe0a656803d95c294f7852321748cb29d13466a1af8862e2db384a1b",
+  "config_treino": {
+    "modelo": "yolo26s.pt",
+    "imgsz": 640,
+    "epochs": 100,
+    "patience": 20,
+    "batch": 16,
+    "seed": 42,
+    "deterministic": true,
+    "max_det": 300
+  },
+  "calibracao": {
+    "conf_minimo_inferencia": 0.05,
+    "grade_limiares": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.25,
+      0.3,
+      0.35,
+      0.4,
+      0.45,
+      0.5,
+      0.55,
+      0.6,
+      0.65,
+      0.7,
+      0.75,
+      0.8,
+      0.85,
+      0.9
+    ],
+    "criterio": "menor MAE no valid (avaliar.py, split=valid); empate: menor |vies|, depois menor limiar",
+    "regra_contagem": "numero de caixas com confianca >= limiar da classe"
+  },
+  "versoes": {
+    "registrado_em_utc": "2026-11-26T11:41:45.492075+00:00",
+    "ultralytics": "8.4.219",
+    "torch": "2.14.1+cu130",
+    "cuda_torch": "13.0",
+    "cudnn": 92800,
+    "gpu": "Tesla T4",
+    "driver_nvidia": "580.82.07",
+    "python": "3.13.16",
+    "plataforma": "Linux-6.6.159+-x86_64-with-glibc2.39"
+  },
+  "data_final_zip_sha256": "d542f8c06ea9bff1afe9ed25debaea46f11aeddee6661a9a8fabadcda77efc81",
+  "avaliar_py_sha256": "61c65fb0d65b751b429b7203b64651b4b1f9b5c2fcf17c1e6979fe75986a8da5",
+  "classes": {
+    "parafuso": {
+      "best_pt": "/content/drive/MyDrive/PDI_Contagem_Objetos/etapa4/runs/parafuso/weights/best.pt",
+      "best_pt_sha256": "d97eaa7d3a6e13da4450f2ed5548b4721de61ff28dc41ecacc1f7beeeb062463",
+      "limiar_conf": 0.3,
+      "mae_valid_no_limiar": 0.175
+    },
+    "porca": {
+      "best_pt": "/content/drive/MyDrive/PDI_Contagem_Objetos/etapa4/runs/porca/weights/best.pt",
+      "best_pt_sha256": "2500cc8460005ae7f4a35a85050a581ac9ae35eb80467ede29c5ff009ef211b4",
+      "limiar_conf": 0.15,
+      "mae_valid_no_limiar": 0.4
+    },
+    "arruela": {
+      "best_pt": "/content/drive/MyDrive/PDI_Contagem_Objetos/etapa4/runs/arruela/weights/best.pt",
+      "best_pt_sha256": "6d0caa1a415f9330880bd49a5000c51044bb35961adce49788dd190c19981714",
+      "limiar_conf": 0.8,
+      "mae_valid_no_limiar": 1.435483870967742
+    }
+  }
+}

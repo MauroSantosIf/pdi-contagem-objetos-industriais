@@ -221,3 +221,27 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Dados extraídos e gerados localmente (Fase 0 / Fase 1)
+data_extracted/
+data_final/
+data_final.zip
+datasets/parafusos/roboflow_screws/train/
+datasets/parafusos/roboflow_screws/valid/
+datasets/parafusos/roboflow_screws/test/
+datasets/parafusos/roboflow_screws/data.yaml
+datasets/parafusos/roboflow_screws/README.dataset.txt
+datasets/parafusos/roboflow_screws/README.roboflow.txt
+datasets/porcas/nutsnbolts/train/
+datasets/porcas/nutsnbolts/valid/
+datasets/porcas/nutsnbolts/test/
+datasets/porcas/nutsnbolts/data.yaml
+datasets/porcas/nutsnbolts/README.dataset.txt
+datasets/porcas/nutsnbolts/README.roboflow.txt
+
+# YOLO local (Fase 4A-LOCAL): artefatos grandes/gerados
+resultados/yolo/_dados/
+resultados/yolo/_base/
+resultados/yolo/runs/
+resultados/yolo/pesos/
+resultados/yolo_local_parcial/

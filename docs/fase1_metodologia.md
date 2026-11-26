@@ -39,7 +39,7 @@ O escopo desta fase não incluiu treinamento de modelos de inteligência artific
 | zipfile | Leitura e extração dos arquivos ZIP |
 | JSON e CSV | Registro dos resultados |
 
-O notebook principal é `fase1_dataset_ground_truth.ipynb`, localizado na pasta `notebooks/` do repositório.
+O notebook principal é `fase1_multidataset_consolidada.ipynb`, localizado na pasta `notebooks/` do repositório.
 
 ## 4. Fluxo metodológico
 
@@ -298,7 +298,7 @@ Essas limitações deverão ser consideradas durante as próximas fases.
 
 O procedimento pode ser reproduzido por meio do notebook:
 
-`notebooks/fase1_dataset_ground_truth.ipynb`
+`notebooks/fase1_multidataset_consolidada.ipynb`
 
 Para sua execução, é necessário:
 

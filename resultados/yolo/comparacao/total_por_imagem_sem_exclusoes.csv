@@ -1,0 +1,5 @@
+dataset,imagens,peças por imagem,erro médio clássico,erro relativo clássico (%),erro médio YOLO,erro relativo YOLO (%)
+nutsnbolts,6,27.83,3.5,12.57,2.5,8.98
+roboflow_screws,25,6.72,1.28,19.05,0.32,4.76
+screws_and_nuts,9,10.67,2.67,25.0,0.89,8.33
+washers_hardee,56,8.98,6.59,73.36,0.91,10.14

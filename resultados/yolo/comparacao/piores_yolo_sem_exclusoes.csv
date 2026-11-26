@@ -1,0 +1,11 @@
+dataset,imagem,classe,real,classico,yolo26s,erro_yolo
+washers_hardee,washers_hardee__2dxyppb_jpg.rf.80c9f37a3d21fd99aaaa3fe2af636df5.jpg,arruela,54,27,47,7
+washers_hardee,washers_hardee__istockphoto-1286559670-612x612_jpg.rf.3c57048717d6ca138c3621b15e935497.jpg,arruela,8,14,14,6
+nutsnbolts,nutsnbolts__opencv_frame_23_png.rf.289889c0842d8f1707eaf43e7965222a.jpg,arruela,7,7,1,6
+nutsnbolts,nutsnbolts__opencv_frame_24_png.rf.d5a663edcd885abca2c18e82af67a5b6.jpg,porca,5,9,11,6
+washers_hardee,washers_hardee__gettyimages-1189397322-612x612_jpg.rf.d358a7e8c8e2c8938597f36dccc7c891.jpg,arruela,36,28,31,5
+washers_hardee,washers_hardee__istockphoto-994631840-612x612_jpg.rf.109a47e9bac2ab8e29da7079da2158f9.jpg,arruela,17,43,12,5
+washers_hardee,washers_hardee__steel-brass-washers-various-sizes-diameters-197883308_jpg.rf.a62213205fc019f62157e2b057760165.jpg,arruela,17,28,22,5
+nutsnbolts,nutsnbolts__opencv_frame_24_png.rf.d5a663edcd885abca2c18e82af67a5b6.jpg,arruela,8,5,3,5
+washers_hardee,washers_hardee__types-of-washers-min_jpg.rf.23b2d960da79daa0a7f4310212ddf86e.jpg,arruela,6,21,2,4
+washers_hardee,washers_hardee__2exggb7_jpg.rf.021a129ceccbbc4339525989416cb2c6.jpg,arruela,12,12,15,3

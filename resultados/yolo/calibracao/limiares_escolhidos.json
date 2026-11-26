@@ -1,0 +1,14 @@
+{
+  "parafuso": {
+    "limiar_conf": 0.3,
+    "mae_valid": 0.175
+  },
+  "porca": {
+    "limiar_conf": 0.15,
+    "mae_valid": 0.4
+  },
+  "arruela": {
+    "limiar_conf": 0.8,
+    "mae_valid": 1.435483870967742
+  }
+}

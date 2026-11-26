@@ -1,0 +1,5 @@
+classe,n,YOLO erra menos,empate,clássico erra menos,diferença média de erro (clássico − YOLO),p-valor (Wilcoxon)
+TODAS,117,76,29,12,3.1795,0.0
+arruela,62,43,13,6,4.9839,0.0
+parafuso,40,24,12,4,1.1,0.0002
+porca,15,9,4,2,1.2667,0.0796

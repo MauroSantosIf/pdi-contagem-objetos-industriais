@@ -414,7 +414,7 @@ Essas limitações deverão ser consideradas durante a implementação dos algor
 
 O código da Fase 2 deverá ser mantido no repositório, no arquivo:
 
-`notebooks/fase2_preprocessamento.ipynb`
+`notebooks/fase2_preprocessamento_multidataset_sincronizado.ipynb`
 
 Para reproduzir a execução:
 
