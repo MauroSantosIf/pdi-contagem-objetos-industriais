@@ -1,4 +1,4 @@
-# Dataset de Porcas — NutsNBolts
+# Datasets de porcas — NutsNBolts e Screws and Nuts
 
 ## 1. Descrição
 
@@ -12,6 +12,8 @@ Embora esteja organizado na categoria `porcas`, o dataset contém imagens e anot
 
 O objetivo é utilizar essas imagens nas etapas de preparação, reconhecimento e contagem de objetos industriais.
 
+Este diretório guarda dois datasets: `nutsnbolts`, descrito na maior parte deste documento, com porcas, parafusos e arruelas, e `screws_and_nuts`, com porcas e parafusos (seção 12). Os dois alimentam a base final de contagem (`data_final/`), em que as classes são unificadas em `parafuso`, `porca` e `arruela`.
+
 O dataset passou por auditoria e validação estrutural durante a **Fase 1 — Organização, Validação e Ground Truth**.
 
 ## 2. Fonte dos dados
@@ -19,7 +21,7 @@ O dataset passou por auditoria e validação estrutural durante a **Fase 1 — O
 - **Dataset:** NutsNBolts
 - **Plataforma:** Roboflow Universe
 - **Fonte:** https://universe.roboflow.com/tktk-hodc3/nutsnbolts
-- **Formato das anotações:** YOLO Detection
+- **Formato das anotações:** YOLO Detection e YOLO Segmentation. Nas 90 imagens que entram na base final, 2.160 dos 2.370 objetos são polígonos e 210 são caixas.
 - **Quantidade de classes:** 3
 
 As condições de licença e redistribuição devem ser verificadas na página de origem do dataset.
@@ -30,9 +32,11 @@ As condições de licença e redistribuição devem ser verificadas na página d
 datasets/
 └── porcas/
     ├── README.md
-    └── nutsnbolts/
-        ├── original.zip
-        └── filtrado.zip
+    ├── nutsnbolts/
+    │   ├── original.zip
+    │   └── filtrado.zip
+    └── screws_and_nuts/
+        └── original.zip
 ```
 
 | Arquivo | Descrição |
@@ -141,9 +145,11 @@ Para cada imagem, o notebook registra:
 
 Os relatórios são gerados pelo notebook da Fase 1:
 
-`notebooks/fase1_dataset_ground_truth.ipynb`
+`notebooks/fase1_multidataset_consolidada.ipynb`
 
 Os resultados consolidados encontram-se na pasta de resultados da Fase 1, no Google Drive.
+
+O GT usado na contagem final é outro arquivo: `data_final/contagens_gt.csv`, gerado por `scripts/preparar_dados.py` (seção 11).
 
 ## 9. Limitações
 
@@ -171,7 +177,7 @@ Uma inspeção visual complementar poderá ser necessária antes do treinamento.
 
 O dataset contém três classes que também aparecem, em diferentes formatos e nomenclaturas, nos demais conjuntos do projeto.
 
-Antes de realizar um treinamento conjunto, será necessário padronizar os identificadores das classes e verificar a compatibilidade das anotações.
+Na base final, `scripts/preparar_dados.py` unifica as classes: `bolt` vira `parafuso`, `nut` vira `porca` e `washer` vira `arruela`. Os polígonos viram a caixa que os envolve.
 
 ## 10. Estado atual
 
@@ -181,7 +187,27 @@ A versão `filtrado.zip` foi aprovada nos critérios de inventário, geometria d
 
 O arquivo está disponível no repositório para utilização nas próximas etapas, respeitando as condições de licença da fonte.
 
-A aplicação de técnicas de pré-processamento e o treinamento de modelos fazem parte das fases posteriores do projeto.
+O dataset foi usado na base final de contagem (seção 11), na pipeline clássica e no treino dos detectores YOLO.
+
+## 11. Uso do NutsNBolts na base final de contagem
+
+`scripts/preparar_dados.py` lê `nutsnbolts/filtrado.zip` e usa o dataset como fonte das três classes. Das 107 imagens, 90 entram na base final (78 em `train`, 6 em `valid` e 6 em `test`). As outras 17 foram omitidas: em `valid` e `test` o script mantém só a primeira imagem de cada grupo de imagens parecidas.
+
+A base final tem 2.370 objetos deste dataset: 1.307 parafusos, 610 porcas e 453 arruelas. Os números vêm de `data_final/manifesto.json`, gerado pelo script.
+
+Com só 6 imagens em `valid` e 6 em `test`, as métricas deste dataset são instáveis. Nas arruelas dele, o detector YOLO teve MAE pior que o da pipeline clássica no `test` (ver o README da raiz, seção 7).
+
+## 12. Dataset Screws and Nuts
+
+- **Pasta:** `datasets/porcas/screws_and_nuts/original.zip`, versão original, sem tratamento.
+- **Fonte:** Roboflow Universe, workspace `zians-workspace`, projeto `screws-and-nuts-k7why`, versão 1: https://universe.roboflow.com/zians-workspace/screws-and-nuts-k7why/dataset/1
+- **Licença:** CC BY 4.0, segundo o README que acompanha o ZIP.
+- **Classes:** `Nuts` (porca) e `Screws` (parafuso).
+- **Formato:** mistura de caixas e polígonos. Nas imagens usadas, são 446 caixas e 1.538 polígonos.
+- **Imagens:** 141 no ZIP e 115 na base final (97 em `train`, 9 em `valid` e 9 em `test`). As 26 restantes foram omitidas pela mesma regra (só a primeira imagem de cada grupo em `valid` e `test`).
+- **Objetos na base final:** 1.318 parafusos e 666 porcas.
+
+Este dataset não aparece na auditoria estrutural da Fase 1 original (`docs/fase1_metodologia.md`). As verificações dele são as de `scripts/preparar_dados.py`, que confere a conservação dos objetos, a correspondência entre imagens e labels e a ausência de vazamento entre as divisões.
 
 ---
 
