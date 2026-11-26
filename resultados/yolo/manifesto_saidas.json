@@ -1,0 +1,325 @@
+{
+  "config_yolo_final_sha256": "2e4858358bb3c04ceeb409e75ac3c0e819d88cf28d62c134dfab7fec22df590d",
+  "arquivos": [
+    {
+      "arquivo": "TEST_EXECUCAO.json",
+      "bytes": 172,
+      "sha256": "c0db5f27c8fd915276d5cb2e1a44e5047ce860f302a092ba016dbb9197d8322b"
+    },
+    {
+      "arquivo": "amostras_test/nutsnbolts/nutsnbolts__opencv_frame_10_png.rf.0a5e6e3c76a93bd46daf5d2ce207b625_yolo.jpg",
+      "bytes": 80758,
+      "sha256": "9742fe18af89e7583dcf991a95f7c4b0a5775b25ae32eb70977e0c351d1abfb8"
+    },
+    {
+      "arquivo": "amostras_test/nutsnbolts/nutsnbolts__opencv_frame_26_png.rf.4f586927d04ec8657d4f7e02974826b6_yolo.jpg",
+      "bytes": 73581,
+      "sha256": "8ca4d3f599b0d31dc55678a646f632c3da3134da36c07e70ba68322f8a785186"
+    },
+    {
+      "arquivo": "amostras_test/nutsnbolts/nutsnbolts__opencv_frame_8_png.rf.035c5e38b49ce8d5639ce165fb100ae6_yolo.jpg",
+      "bytes": 70876,
+      "sha256": "7447828c9047a520044bb0b2adbcd99111d69fe2995aa0026e4acba696488a8e"
+    },
+    {
+      "arquivo": "amostras_test/roboflow_screws/roboflow_screws__Parafusos_Dourados_0006_jpg.rf.cdbddadd24d27e8a932bd94ec5396ea9_yolo.jpg",
+      "bytes": 24026,
+      "sha256": "376117eb1583a31271be27e83d57c8d7301a47c7e10b7c8852508cca6b643f11"
+    },
+    {
+      "arquivo": "amostras_test/roboflow_screws/roboflow_screws__Parafusos_Dourados_0022_jpg.rf.a03bc50ed625d621fb0c1d03d27d0ef4_yolo.jpg",
+      "bytes": 27071,
+      "sha256": "4fab33f67686a7b45a7d966a73471795aff3e6479e3506b735f1954507b22096"
+    },
+    {
+      "arquivo": "amostras_test/roboflow_screws/roboflow_screws__Parafusos_Dourados_0178_jpg.rf.1487c79de0d3dbb6aef370c0fa6fb4c7_yolo.jpg",
+      "bytes": 53574,
+      "sha256": "cd3fc509c3941142d934db17cc46a147397d8e61bec5008f8552db554420d8bb"
+    },
+    {
+      "arquivo": "amostras_test/screws_and_nuts/screws_and_nuts__IMG_02_jpg.rf.539e08aae7cf25e7565bdb0762059f12_yolo.jpg",
+      "bytes": 72836,
+      "sha256": "821839e8c2ea271d5ca73f4a8b76003b6ac323dbce543feaa943d1597b31df05"
+    },
+    {
+      "arquivo": "amostras_test/screws_and_nuts/screws_and_nuts__IMG_08_jpg.rf.6c89b8b5d5c627cf882afc95e1be612f_yolo.jpg",
+      "bytes": 47631,
+      "sha256": "194f54c42fa7603b0009758fbb1ea138412f205233e773b04a14d2a436433ab3"
+    },
+    {
+      "arquivo": "amostras_test/screws_and_nuts/screws_and_nuts__IMG_9111_HEIC.rf.8bea397dac34e9f826dc3c22f280ef90_yolo.jpg",
+      "bytes": 122411,
+      "sha256": "3b5d359e224b0b1ee12b2c4adeb962989ccee473bf739a610c5d2b8654cb24fc"
+    },
+    {
+      "arquivo": "amostras_test/washers_hardee/washers_hardee__2dxpfya_jpg.rf.3895fa164ce56615b384b490c8f05b20_yolo.jpg",
+      "bytes": 32848,
+      "sha256": "65f5c8d95931c1c3c6335703ba865876c6d1337aeabc43945175b66c7e678bd3"
+    },
+    {
+      "arquivo": "amostras_test/washers_hardee/washers_hardee__M2-5-M3-M4-M5-M6-M8-M10-M30-DIN6798A-External-Serrated-Lock-Washers-304-Stainless_jpg.rf.76330daac6e5a7795c571b4fe4adabd1_yolo.jpg",
+      "bytes": 50992,
+      "sha256": "daaf22c0fa2dc07e8c3aa36f93c74b9499d62987334e912473a5203993332de6"
+    },
+    {
+      "arquivo": "amostras_test/washers_hardee/washers_hardee__rusty-steel-nuts-washers-different-600w-1636069846_jpg.rf.c964dcdbc199641d622d355928fe894e_yolo.jpg",
+      "bytes": 57857,
+      "sha256": "e875f1e76577bea9d7c438184d39c321ce572f652fc3f6c958b7bbce64c0b7c0"
+    },
+    {
+      "arquivo": "avaliacao/yolo26s_test/metricas.csv",
+      "bytes": 7193,
+      "sha256": "870c4a311476f1e37a817d5a84e3ff310136647d5b26e6282c52f3b5a68bf6a9"
+    },
+    {
+      "arquivo": "avaliacao/yolo26s_test/por_imagem.csv",
+      "bytes": 17064,
+      "sha256": "0267da5c94fb04e5363fa99994d0e590c86492e5deb88a86231e706bcefa50eb"
+    },
+    {
+      "arquivo": "avaliacao/yolo26s_valid/metricas.csv",
+      "bytes": 7131,
+      "sha256": "d73b119a3b4d96b0b2c50117ef92291bc6c8c5a87db2c1861edbed8baac54951"
+    },
+    {
+      "arquivo": "avaliacao/yolo26s_valid/por_imagem.csv",
+      "bytes": 17334,
+      "sha256": "80cf5c9e3f34c3a5afcfabfa6ff150655ca3059d1afa00cc90408f17e7b6ce24"
+    },
+    {
+      "arquivo": "calibracao/curva_calibracao.csv",
+      "bytes": 4627,
+      "sha256": "f15f6026bdcf6e08a66a16951ca67c6a10d3de68fdba02f474667c9da8606205"
+    },
+    {
+      "arquivo": "calibracao/curva_calibracao.png",
+      "bytes": 81121,
+      "sha256": "0cb27447a9ed02f8a72b727d585ac91fab29f94366d6c0278d43579415497206"
+    },
+    {
+      "arquivo": "calibracao/curva_calibracao_arruela.csv",
+      "bytes": 2091,
+      "sha256": "515587eb7ea77cd0d030fe508c78a5b45f732beaa5ce2d530cf0415738d5a20d"
+    },
+    {
+      "arquivo": "calibracao/curva_calibracao_parafuso.csv",
+      "bytes": 1161,
+      "sha256": "40f983fc8580e84e6ae5a5beac91cab4fe8dce8212c73ca43400cc39036ac342"
+    },
+    {
+      "arquivo": "calibracao/curva_calibracao_porca.csv",
+      "bytes": 1541,
+      "sha256": "fae7b4c1b54064493502b32755f941c2ed8333c930f10dd818e037fa090a9d79"
+    },
+    {
+      "arquivo": "calibracao/limiares_escolhidos.json",
+      "bytes": 213,
+      "sha256": "3d86cd79f12da803cd9ddf2defa38437d95c5ce6a15334840eec6faa989de3d7"
+    },
+    {
+      "arquivo": "config_yolo_final.json",
+      "bytes": 2347,
+      "sha256": "2e4858358bb3c04ceeb409e75ac3c0e819d88cf28d62c134dfab7fec22df590d"
+    },
+    {
+      "arquivo": "config_yolo_final.sha256",
+      "bytes": 89,
+      "sha256": "269062898b3de7e05092285bca1c62b41c693f773afb43ccb2c0909ab760fc37"
+    },
+    {
+      "arquivo": "deteccoes/deteccoes_test_arruela.json",
+      "bytes": 76520,
+      "sha256": "a7d497d087553f6a9ccf05ee2fc39275bf162d1d17e0b7f9d88613bef58bc6cb"
+    },
+    {
+      "arquivo": "deteccoes/deteccoes_test_parafuso.json",
+      "bytes": 38165,
+      "sha256": "f9732de2314a78f55822cab5b1a197129a29149a9f785dd2d6a3c0390d03fcd4"
+    },
+    {
+      "arquivo": "deteccoes/deteccoes_test_porca.json",
+      "bytes": 12060,
+      "sha256": "d91a0ec0a4e5456aa455a85d6b9984df764d77a4fd2f9676a9ce6e4e49177427"
+    },
+    {
+      "arquivo": "deteccoes/deteccoes_valid_arruela.json",
+      "bytes": 102895,
+      "sha256": "2d457c67a7622adfb4345c280a469d3443ed2f0dd56e0705a613c818e9b94825"
+    },
+    {
+      "arquivo": "deteccoes/deteccoes_valid_parafuso.json",
+      "bytes": 40659,
+      "sha256": "ee366e450ab850432858dfecd4a0e9ee8184b52693ab4e85c802841290a94c6f"
+    },
+    {
+      "arquivo": "deteccoes/deteccoes_valid_porca.json",
+      "bytes": 12176,
+      "sha256": "013e5cbbd58b31a88eec6628031181e3b9dfa9c4cddca55e0f2a057ec3ff2ab0"
+    },
+    {
+      "arquivo": "pesos/arruela_best.pt",
+      "bytes": 20318341,
+      "sha256": "6d0caa1a415f9330880bd49a5000c51044bb35961adce49788dd190c19981714"
+    },
+    {
+      "arquivo": "pesos/parafuso_best.pt",
+      "bytes": 20318853,
+      "sha256": "d97eaa7d3a6e13da4450f2ed5548b4721de61ff28dc41ecacc1f7beeeb062463"
+    },
+    {
+      "arquivo": "pesos/porca_best.pt",
+      "bytes": 20313285,
+      "sha256": "2500cc8460005ae7f4a35a85050a581ac9ae35eb80467ede29c5ff009ef211b4"
+    },
+    {
+      "arquivo": "previsoes_test.csv",
+      "bytes": 14714,
+      "sha256": "2801d353fe5ce6da30a6c2d9c57bc992fa1e8febe0508f26e2c1d0760a2696f8"
+    },
+    {
+      "arquivo": "previsoes_valid.csv",
+      "bytes": 15050,
+      "sha256": "d3172911c1c5c3ff93a8f5c9ef283c208182d23b94e959b14c9720d51a600814"
+    },
+    {
+      "arquivo": "treino/arruela/BoxF1_curve.png",
+      "bytes": 94828,
+      "sha256": "6c90e4f4344aaac124bd77c5be9d0a6ee3bc493d259b8740eb514e8f8d133292"
+    },
+    {
+      "arquivo": "treino/arruela/BoxPR_curve.png",
+      "bytes": 80178,
+      "sha256": "02f676dac56a554d3ede31a8f8180f7f51854acd015216a97a1d672dc1e8aa24"
+    },
+    {
+      "arquivo": "treino/arruela/BoxP_curve.png",
+      "bytes": 85684,
+      "sha256": "462ad562b5923b2ab73442e3d40541568f76c8581eb2245831a850a30bdde38e"
+    },
+    {
+      "arquivo": "treino/arruela/BoxR_curve.png",
+      "bytes": 99162,
+      "sha256": "7bfa1a811927ec41873355cf062aa4e035c6e2f40fc2395b98b4d126c6704cc4"
+    },
+    {
+      "arquivo": "treino/arruela/args.yaml",
+      "bytes": 1773,
+      "sha256": "1a32a2d7ec45fc7eb0ce5591da77e74755bc48a1f4f7a6d6f5c7331c9bd3fec4"
+    },
+    {
+      "arquivo": "treino/arruela/confusion_matrix.png",
+      "bytes": 104174,
+      "sha256": "7f021d348bf485ac423118fefc9487c2cf2ee9ed8d3dde6d46b2c641a987492a"
+    },
+    {
+      "arquivo": "treino/arruela/confusion_matrix_normalized.png",
+      "bytes": 98268,
+      "sha256": "799e319dd5fe23a8fda398d234e18201ba3807cdc311d638cbd9a15924a2b670"
+    },
+    {
+      "arquivo": "treino/arruela/results.csv",
+      "bytes": 11650,
+      "sha256": "ed655a84d8792317bd21bb28569f4af07aa710b450f9d1e7a099a98216716f55"
+    },
+    {
+      "arquivo": "treino/arruela/results.png",
+      "bytes": 309145,
+      "sha256": "5722cf0cc0145951827ddc7d4001179ca1893d3f0eda0c80734f390c80f3158f"
+    },
+    {
+      "arquivo": "treino/parafuso/BoxF1_curve.png",
+      "bytes": 99908,
+      "sha256": "3a5f11f08c963ac1868531929e1bcb09dc344364c93e33d0623fd73877a413d0"
+    },
+    {
+      "arquivo": "treino/parafuso/BoxPR_curve.png",
+      "bytes": 77667,
+      "sha256": "14993abb88ac94a02053c9aaf3838a5e47564e3c61be5ea5108d9bc2fa5b0848"
+    },
+    {
+      "arquivo": "treino/parafuso/BoxP_curve.png",
+      "bytes": 82170,
+      "sha256": "84e98d3da64c937b4abb2ee3725d7a81a6b1ae3df1531c1aa0aee2d73cc817c1"
+    },
+    {
+      "arquivo": "treino/parafuso/BoxR_curve.png",
+      "bytes": 100919,
+      "sha256": "74d8a51339157cd4d6768a8931cb5e32f1e870f5619f48416d476975c8a2432b"
+    },
+    {
+      "arquivo": "treino/parafuso/args.yaml",
+      "bytes": 1776,
+      "sha256": "2d810891c5a766502fdc30c5b5a4fd5641ddd5768f3394f7966e2cf2abcc2487"
+    },
+    {
+      "arquivo": "treino/parafuso/confusion_matrix.png",
+      "bytes": 101036,
+      "sha256": "3d01e348973940c55a73d09e6369526c7f2a9cd85c90b8221a55db1d2baf3cf9"
+    },
+    {
+      "arquivo": "treino/parafuso/confusion_matrix_normalized.png",
+      "bytes": 102897,
+      "sha256": "9a002250b4a4e9d785f632e45d1e01faaa6760f5b158ea73286a4cde0076b8ea"
+    },
+    {
+      "arquivo": "treino/parafuso/results.csv",
+      "bytes": 12109,
+      "sha256": "b0ae4a28d0f3818d5ace28473e14074346e0401d4285ed28a9ccca6a3eb5231d"
+    },
+    {
+      "arquivo": "treino/parafuso/results.png",
+      "bytes": 317223,
+      "sha256": "89080d4d42f9618d3a7aefb3bb7ffb54a8ba16416309065f42b6235cb9abc5a9"
+    },
+    {
+      "arquivo": "treino/porca/BoxF1_curve.png",
+      "bytes": 109174,
+      "sha256": "6ea65642354f6df06721a89b0ead7b94f6e38acb0c4d0cf87249f1e06a53f416"
+    },
+    {
+      "arquivo": "treino/porca/BoxPR_curve.png",
+      "bytes": 79515,
+      "sha256": "d4fbdab06a106d7b78591e3672b41325997660f31280461cc52c0756ec085ca2"
+    },
+    {
+      "arquivo": "treino/porca/BoxP_curve.png",
+      "bytes": 99603,
+      "sha256": "b3631617d82be59ab8be695767db78380cd8d7837a6e8cbcc8f26d8342862234"
+    },
+    {
+      "arquivo": "treino/porca/BoxR_curve.png",
+      "bytes": 102030,
+      "sha256": "6e2f517daa230e62888cbb6a88a60dc4496f7e041ab8ece94de9ccb8a0ce9010"
+    },
+    {
+      "arquivo": "treino/porca/args.yaml",
+      "bytes": 1767,
+      "sha256": "f9bbc146b6f8c1dbbcfd46b97adcd2dfe698de884d6846f2f2c826d33b0a1c21"
+    },
+    {
+      "arquivo": "treino/porca/confusion_matrix.png",
+      "bytes": 95080,
+      "sha256": "8a09e4c7e513a9b65070830a61baff3d15721cc507a784f7df2e25b675d965e6"
+    },
+    {
+      "arquivo": "treino/porca/confusion_matrix_normalized.png",
+      "bytes": 98641,
+      "sha256": "4118ffbfb90be3b8338af4ca90d00aea90976022bfad2a960c99511d19cf27aa"
+    },
+    {
+      "arquivo": "treino/porca/results.csv",
+      "bytes": 6987,
+      "sha256": "a61ceeaf2a9c01462de2fcea7c2a6baea5c024556f92073b8210b090a633e610"
+    },
+    {
+      "arquivo": "treino/porca/results.png",
+      "bytes": 314356,
+      "sha256": "628696a0de98d0a8ed0ff520972f7c914eb0a8d0a67ff4e35d60dacc29ad10a7"
+    },
+    {
+      "arquivo": "versoes_ambiente.json",
+      "bytes": 290,
+      "sha256": "223f9b94864459e6fad81ba10995f5e19fe8294ca61d0abea834365211eed8a6"
+    }
+  ]
+}
