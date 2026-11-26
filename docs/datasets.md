@@ -29,6 +29,8 @@ Os arquivos originais foram preservados. As correções e filtragens foram reali
 
 Os quantitativos representam as instâncias anotadas nos arquivos de cada dataset.
 
+A tabela descreve o estado depois da Fase 1 original. A base final de contagem (`data_final/`) usa também o dataset `screws_and_nuts` e deixa de fora os vergalhões. Os números dela estão na seção 8.
+
 É importante observar que os datasets apresentam características distintas, incluindo diferentes classes, formatos de anotação e distribuições entre treinamento, validação e teste.
 
 Os dados foram validados estruturalmente, mas ainda não passaram por uma revisão visual exaustiva de todas as anotações.
@@ -102,9 +104,9 @@ O arquivo `original.zip` foi preservado.
 - **Versão utilizada:** `filtrado.zip`
 - **Total de imagens:** 107
 - **Total de objetos anotados:** 2.832
-- **Formato:** YOLO Detection
+- **Formato:** YOLO Detection e YOLO Segmentation. Nas 90 imagens que entram na base final, 2.160 dos 2.370 objetos são polígonos e 210 são caixas.
 
-Embora esteja armazenado na categoria `porcas`, esse dataset contém três classes distintas.
+Embora esteja armazenado na categoria `porcas`, esse dataset contém três classes distintas. Na base final, ele é a fonte de `parafuso`, `porca` e `arruela`.
 
 ### 4.2. Classes
 
@@ -311,4 +313,25 @@ PDI_Contagem_Objetos/
 └── resultados/
     └── fase1_multidataset/
         ├── validacao_final/
-        └── <ident
+        └── <ID_EXECUCAO>/
+```
+
+---
+
+## 8. Base final de contagem (`data_final/`)
+
+`scripts/preparar_dados.py` gera a base usada na pipeline clássica e no YOLO. Ele lê os ZIPs de quatro datasets, unifica as classes em `parafuso`, `porca` e `arruela` e sorteia as divisões por grupos de imagens parecidas. Os polígonos viram a caixa que os envolve. Os números abaixo vêm de `data_final/contagens_gt.csv`.
+
+| Dataset | ZIP lido | Classes usadas | `train` | `valid` | `test` | Imagens | Objetos |
+|---|---|---|---:|---:|---:|---:|---:|
+| `roboflow_screws` | `parafusos/roboflow_screws/revisado.zip` | parafuso | 335 | 25 | 25 | 385 | 2.715 |
+| `nutsnbolts` | `porcas/nutsnbolts/filtrado.zip` | parafuso, porca, arruela | 78 | 6 | 6 | 90 | 2.370 |
+| `screws_and_nuts` | `porcas/screws_and_nuts/original.zip` | parafuso, porca | 97 | 9 | 9 | 115 | 1.984 |
+| `washers_hardee` | `arruelas/washers_hardee/deduplicado.zip` | arruela | 283 | 56 | 56 | 395 | 3.911 |
+| **Total** | | | **793** | **96** | **96** | **985** | **10.980** |
+
+O dataset de vergalhões fica de fora, porque tem só 3 imagens.
+
+### 8.1. Observações sobre o `washers_hardee`
+
+O `washers_hardee` contém imagens de bancos de fotos e um infográfico, que estão fora do domínio industrial. Algumas imagens parecem ter arruelas sem caixa. Como o `valid` de arruela é quase todo desse dataset (56 das 62 imagens), a calibração do limiar do YOLO para arruela foi dominada por ele. O README da raiz, seção 7, traz as consequências para o resultado.
