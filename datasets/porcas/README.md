@@ -165,4 +165,28 @@ Essa decisão resolveu as inconsistências estruturais detectadas, mas reduziu a
 
 A validação estrutural não garante que todos os objetos visíveis estejam anotados corretamente.
 
-Uma inspe
+Uma inspeção visual complementar poderá ser necessária antes do treinamento.
+
+### 9.4. Integração com outros datasets
+
+O dataset contém três classes que também aparecem, em diferentes formatos e nomenclaturas, nos demais conjuntos do projeto.
+
+Antes de realizar um treinamento conjunto, será necessário padronizar os identificadores das classes e verificar a compatibilidade das anotações.
+
+## 10. Estado atual
+
+**Status: validado estruturalmente na Fase 1.**
+
+A versão `filtrado.zip` foi aprovada nos critérios de inventário, geometria das anotações e ausência de duplicatas exatas.
+
+O arquivo está disponível no repositório para utilização nas próximas etapas, respeitando as condições de licença da fonte.
+
+A aplicação de técnicas de pré-processamento e o treinamento de modelos fazem parte das fases posteriores do projeto.
+
+---
+
+**Projeto:** Contagem de Objetos Industriais  
+**Disciplina:** Processamento Digital de Imagens  
+**Etapa:** Fase 1 — Organização, Validação e Ground Truth  
+**Dataset:** NutsNBolts  
+**Versão aprovada:** `filtrado.zip`
