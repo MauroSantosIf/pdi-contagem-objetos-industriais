@@ -189,7 +189,7 @@ Para cada imagem, o notebook registra:
 
 O Ground Truth é gerado pelo notebook:
 
-`notebooks/fase1_dataset_ground_truth.ipynb`
+`notebooks/fase1_multidataset_consolidada.ipynb`
 
 Os relatórios da validação são armazenados no diretório de resultados da Fase 1.
 
@@ -225,6 +225,10 @@ O dataset apresentou:
 A versão original foi preservada para rastreabilidade.
 
 O conjunto está disponível para experimentação, mas não é considerado suficiente para treinamento e avaliação confiáveis de um modelo de reconhecimento de vergalhões.
+
+## Situação na base final de contagem
+
+Este dataset não entra em `data_final/` nem nas comparações entre a pipeline clássica e o detector YOLO. A base final usa `parafuso`, `porca` e `arruela`, e o dataset tem só 3 imagens, sem `valid` nem `test`.
 
 ---
 
