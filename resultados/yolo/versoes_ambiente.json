@@ -1,0 +1,11 @@
+{
+  "registrado_em_utc": "2026-11-26T11:41:45.492075+00:00",
+  "ultralytics": "8.4.219",
+  "torch": "2.14.1+cu130",
+  "cuda_torch": "13.0",
+  "cudnn": 92800,
+  "gpu": "Tesla T4",
+  "driver_nvidia": "580.82.07",
+  "python": "3.13.16",
+  "plataforma": "Linux-6.6.159+-x86_64-with-glibc2.39"
+}
