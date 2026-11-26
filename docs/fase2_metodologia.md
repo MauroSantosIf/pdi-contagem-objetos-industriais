@@ -2,13 +2,15 @@
 
 ## 1. Introdução
 
-A segunda fase do projeto acadêmico de **Processamento Digital de Imagens (PDI) — Contagem de Objetos Industriais** tem como objetivo preparar as imagens para as etapas posteriores de reconhecimento e contagem de objetos.
+A segunda fase do projeto acadêmico **Contagem de Objetos Industriais**, desenvolvido na disciplina de Processamento Digital de Imagens (PDI), teve como objetivo implementar e validar técnicas de pré-processamento de imagens para apoiar as etapas posteriores de reconhecimento e contagem de objetos industriais.
 
-Após a organização e validação dos datasets na Fase 1, serão aplicadas e avaliadas técnicas de processamento digital para reduzir ruídos, padronizar características visuais e investigar possíveis melhorias na identificação dos objetos.
+Após a conclusão da Fase 1, responsável pela organização dos datasets, validação estrutural das anotações e construção do Ground Truth, foram aplicadas técnicas de processamento digital de imagens para investigar a redução de ruídos, a correção de iluminação e o aprimoramento de contraste.
 
-O pré-processamento será implementado em Python, utilizando principalmente a biblioteca OpenCV, com execução no Google Colab.
+A implementação foi desenvolvida em Python, utilizando a biblioteca OpenCV, com execução no Google Colab e armazenamento dos resultados no Google Drive.
 
-Esta documentação apresenta a metodologia definida para a Fase 2. Os resultados experimentais e a escolha definitiva dos parâmetros serão registrados após a execução e avaliação.
+O processo foi estruturado para garantir a correspondência entre os datasets originais, as imagens processadas e as anotações aprovadas na Fase 1.
+
+**Situação:** implementação e validação estrutural concluídas.
 
 ---
 
@@ -16,26 +18,49 @@ Esta documentação apresenta a metodologia definida para a Fase 2. Os resultado
 
 ### 2.1. Objetivo geral
 
-Desenvolver e avaliar um pipeline de pré-processamento para imagens de objetos industriais, preservando suas características relevantes para reconhecimento e contagem.
+Implementar e avaliar visualmente técnicas de pré-processamento em imagens industriais, preservando sua integridade estrutural e a correspondência com o Ground Truth da Fase 1.
 
 ### 2.2. Objetivos específicos
 
-- Realizar a leitura das imagens dos datasets validados na Fase 1.
-- Converter imagens para escala de cinza.
-- Avaliar técnicas de redução de ruído.
-- Investigar métodos de correção de iluminação e melhoria de contraste.
-- Comparar visualmente as imagens originais e processadas.
-- Definir um pipeline reproduzível.
-- Preservar a correspondência entre imagens e anotações.
-- Gerar versões processadas sem alterar os datasets originais.
+- Processar os quatro datasets selecionados na Fase 1.
+- Aplicar conversão para escala de cinza.
+- Aplicar filtragem espacial para redução de ruídos.
+- Avaliar métodos de correção de iluminação.
+- Comparar técnicas de equalização de histograma.
+- Gerar comparações entre imagens originais e processadas.
+- Preservar as dimensões das imagens.
+- Manter os arquivos de anotação YOLO inalterados.
+- Verificar a distribuição entre treinamento, validação e teste.
+- Gerar datasets processados e relatórios de execução.
+- Garantir a rastreabilidade dos arquivos utilizados.
 
 ---
 
-## 3. Datasets utilizados
+## 3. Ambiente de desenvolvimento
 
-Serão utilizadas as versões aprovadas na Fase 1.
+As seguintes tecnologias foram utilizadas:
 
-| Dataset | Versão | Imagens | Objetos anotados |
+| Tecnologia | Aplicação |
+|---|---|
+| Python | Implementação das rotinas de pré-processamento |
+| OpenCV | Conversão de cores, filtros e transformações |
+| NumPy | Manipulação das matrizes de pixels |
+| Matplotlib | Visualização e comparação das imagens |
+| Pandas | Organização dos resultados e relatórios |
+| Google Colab | Execução do notebook |
+| Google Drive | Armazenamento dos datasets e resultados |
+| SHA-256 | Verificação da integridade dos arquivos de entrada |
+| ZIP | Empacotamento dos datasets processados |
+
+O ambiente de execução foi configurado para acessar os datasets já validados durante a Fase 1.
+
+---
+
+## 4. Datasets utilizados
+
+Foram utilizadas exclusivamente as versões aprovadas na Fase 1.
+
+| Dataset | Versão de entrada | Imagens | Objetos anotados |
 |---|---|---:|---:|
 | Roboflow Screws | `revisado.zip` | 463 | 3.230 |
 | NutsNBolts | `filtrado.zip` | 107 | 2.832 |
@@ -43,56 +68,63 @@ Serão utilizadas as versões aprovadas na Fase 1.
 | Rebar Counting V1 | `original.zip` | 3 | 26 |
 | **Total** | | **975** | **10.037** |
 
-O dataset de vergalhões será utilizado apenas para análise exploratória, pois apresenta somente três imagens de treinamento, sem conjuntos de validação e teste.
+O dataset de vergalhões permaneceu classificado como exploratório, pois possui somente três imagens de treinamento, sem conjuntos de validação e teste.
 
-As versões aprovadas não serão modificadas diretamente.
-
----
-
-## 4. Tecnologias e ferramentas
-
-| Tecnologia | Finalidade |
-|---|---|
-| Python | Implementação do pipeline |
-| OpenCV | Transformações e filtros |
-| NumPy | Manipulação de matrizes e pixels |
-| Matplotlib | Visualização comparativa |
-| Pandas | Registro das informações e resultados |
-| Google Colab | Ambiente de execução |
-| Google Drive | Armazenamento dos datasets e imagens processadas |
-
-As versões das bibliotecas utilizadas deverão ser registradas para garantir a reprodutibilidade.
+Os arquivos originais e as versões aprovadas foram preservados durante toda a execução.
 
 ---
 
-## 5. Metodologia de pré-processamento
+## 5. Integração com a Fase 1
 
-O pipeline será construído em etapas independentes, permitindo avaliar o efeito de cada transformação.
+Uma das principais preocupações da Fase 2 foi garantir que as imagens processadas correspondessem exatamente às imagens e anotações validadas na etapa anterior.
 
-### 5.1. Leitura das imagens
+Para isso, o notebook realizou uma verificação dos arquivos ZIP utilizados como entrada.
 
-As imagens serão carregadas a partir das versões finais dos datasets.
+### 5.1. Verificação por SHA-256
 
-Antes do processamento, serão verificados:
+Foi utilizado o algoritmo SHA-256 para calcular a assinatura digital de cada arquivo ZIP.
 
-- Existência dos arquivos.
-- Capacidade de leitura das imagens.
-- Dimensões.
-- Número de canais.
-- Tipo de dados.
-- Correspondência com as anotações da Fase 1.
+As assinaturas obtidas foram comparadas com os valores registrados no manifesto de execução da Fase 1.
 
-As imagens originais permanecerão disponíveis para comparação.
+O manifesto utilizado foi:
 
-### 5.2. Conversão para escala de cinza
+`resultados/fase1_multidataset/20261126T001918539709Z/manifesto_execucao.json`
 
-A primeira transformação será a conversão de imagens coloridas para escala de cinza.
+A verificação confirmou que os quatro arquivos de entrada correspondiam às versões aprovadas anteriormente.
 
-O objetivo é reduzir a representação de três canais de cor para um único canal de intensidade luminosa.
+**Resultado: sincronização SHA-256 aprovada.**
 
-Essa transformação pode facilitar a análise de texturas, bordas e formatos geométricos.
+### 5.2. Preservação do Ground Truth
 
-A conversão será realizada utilizando o OpenCV:
+O pré-processamento foi realizado exclusivamente sobre os valores dos pixels das imagens.
+
+O pipeline principal não introduziu modificações geométricas, como recortes, rotações ou redimensionamentos.
+
+Dessa forma, as dimensões das imagens foram preservadas e as coordenadas normalizadas das anotações YOLO permaneceram compatíveis.
+
+Os arquivos de anotação foram mantidos sem alterações.
+
+Também foram preservados os conjuntos de origem:
+
+- Treinamento (`train`);
+- Validação (`valid`);
+- Teste (`test`).
+
+---
+
+## 6. Metodologia de pré-processamento
+
+A implementação contemplou cinco técnicas de processamento digital de imagens, avaliadas individualmente ou em combinações específicas.
+
+O objetivo foi comparar diferentes estratégias e selecionar uma configuração inicial conservadora.
+
+### 6.1. Conversão para escala de cinza
+
+A primeira técnica consistiu na conversão das imagens coloridas para escala de cinza.
+
+A transformação representa a informação visual utilizando um único canal de intensidade luminosa.
+
+No OpenCV, a conversão é realizada por:
 
 ```python
 imagem_cinza = cv2.cvtColor(
@@ -101,17 +133,15 @@ imagem_cinza = cv2.cvtColor(
 )
 ```
 
-A conversão para escala de cinza reduz informações de cor. Por isso, sua utilização definitiva dependerá dos resultados dos experimentos posteriores, especialmente se for utilizado um detector pré-treinado que espera imagens RGB.
+A conversão reduz a quantidade de canais e permite trabalhar diretamente com informações relacionadas a intensidade, textura e contornos.
 
-### 5.3. Redução de ruído
+Entretanto, também elimina as informações cromáticas, que podem ser relevantes para determinadas tarefas de reconhecimento.
 
-Imagens industriais podem conter pequenas variações de intensidade causadas por captura, compressão ou condições de iluminação.
+Por esse motivo, a imagem original foi preservada para futuras comparações.
 
-Para reduzir esses ruídos, será inicialmente avaliado o **filtro de mediana**.
+### 6.2. Redução de ruído com filtro de mediana
 
-O filtro substitui o valor de cada pixel pela mediana dos valores presentes em sua vizinhança.
-
-A configuração inicial será:
+Após a conversão para escala de cinza, foi aplicado o filtro de mediana com uma janela de 3 × 3 pixels.
 
 ```python
 imagem_filtrada = cv2.medianBlur(
@@ -120,31 +150,44 @@ imagem_filtrada = cv2.medianBlur(
 )
 ```
 
-O parâmetro `3` representa uma vizinhança de 3 × 3 pixels.
+O filtro de mediana é uma técnica não linear que substitui o valor de cada pixel pela mediana dos valores presentes em sua vizinhança.
 
-A escolha inicial de uma janela pequena busca reduzir ruídos sem suavizar excessivamente contornos e detalhes dos objetos.
+A finalidade é reduzir pequenas variações de intensidade e determinados tipos de ruído, evitando uma suavização excessiva.
 
-Serão observados possíveis efeitos negativos, como perda de pequenos elementos, preenchimento de espaços e alteração de bordas.
+A janela 3 × 3 foi escolhida como configuração inicial por produzir uma intervenção relativamente pequena nas imagens.
 
-### 5.4. Correção de iluminação
+A aplicação pode suavizar detalhes muito pequenos; portanto, seus efeitos devem ser considerados nas etapas de reconhecimento.
 
-A iluminação irregular pode dificultar a distinção entre objetos e fundo.
+### 6.3. Correção de iluminação
 
-Serão investigadas técnicas de normalização luminosa para situações em que existam sombras ou diferenças significativas de brilho.
+Também foi implementada uma técnica experimental de correção de iluminação.
 
-Esses métodos serão aplicados em experimentos separados, para que seus efeitos possam ser comparados ao pipeline básico.
+O objetivo foi compensar diferenças de luminosidade e reduzir efeitos de iluminação não uniforme nas imagens.
 
-Não será aplicada automaticamente uma correção de iluminação a todas as imagens sem avaliação prévia.
+A implementação utilizou uma estimativa suave da iluminação de fundo e ajustes controlados de intensidade.
 
-### 5.5. Melhoria de contraste
+#### Ajuste realizado durante os experimentos
 
-A melhoria de contraste poderá facilitar a diferenciação entre regiões de intensidade semelhante.
+A primeira implementação apresentou escurecimento excessivo em uma amostra do dataset NutsNBolts.
 
-Serão avaliadas duas abordagens:
+A técnica foi revisada para:
 
-**Equalização global de histograma**
+- Utilizar uma referência de iluminação derivada da própria imagem;
+- Aplicar uma compensação suave;
+- Limitar o ganho da correção;
+- Controlar alterações excessivas da luminosidade média.
 
-Redistribui os níveis de intensidade da imagem com o objetivo de ampliar o contraste global.
+Após a modificação, uma nova execução foi realizada para verificar os resultados visuais e estruturais.
+
+Na imagem analisada do dataset Rebar Counting V1, a correção revisada apresentou luminosidade mais equilibrada em relação à implementação anterior, preservando os principais contornos visíveis.
+
+A correção de iluminação permaneceu como **alternativa experimental**, não sendo incorporada automaticamente ao pipeline principal de exportação dos datasets.
+
+### 6.4. Equalização global de histograma
+
+A equalização global de histograma foi avaliada como alternativa para redistribuição dos níveis de intensidade.
+
+No OpenCV, essa técnica pode ser aplicada por:
 
 ```python
 imagem_equalizada = cv2.equalizeHist(
@@ -152,9 +195,26 @@ imagem_equalizada = cv2.equalizeHist(
 )
 ```
 
-**CLAHE — Equalização Adaptativa de Histograma**
+O objetivo é ampliar o contraste global da imagem.
 
-Permite ajustar o contraste localmente, utilizando limites para reduzir a amplificação excessiva de ruídos.
+Entretanto, os experimentos visuais mostraram que essa transformação pode produzir resultados excessivamente contrastados.
+
+Na imagem de NutsNBolts analisada, foram observados:
+
+- Aumento acentuado do contraste;
+- Realce de artefatos;
+- Regiões excessivamente claras ou escuras;
+- Possível perda de detalhes relevantes.
+
+Por esse motivo, a equalização global não foi selecionada como parte obrigatória do pipeline principal.
+
+### 6.5. CLAHE — Equalização Adaptativa de Histograma
+
+A técnica CLAHE (*Contrast Limited Adaptive Histogram Equalization*) também foi avaliada.
+
+Diferentemente da equalização global, o CLAHE atua sobre regiões locais da imagem e limita a amplificação do contraste.
+
+Uma configuração experimental utilizada como referência foi:
 
 ```python
 clahe = cv2.createCLAHE(
@@ -167,132 +227,232 @@ imagem_clahe = clahe.apply(
 )
 ```
 
-Essas duas abordagens serão tratadas como alternativas experimentais, não como etapas obrigatórias do pipeline final.
+Na comparação visual, o CLAHE apresentou aumento do contraste local, tornando algumas texturas e contornos mais evidentes.
+
+Entretanto, em imagens com fundos muito texturizados, como a amostra de vergalhões, também houve realce significativo de detalhes do solo.
+
+Esse comportamento poderá aumentar a complexidade visual para determinados algoritmos de detecção.
+
+Assim, o CLAHE foi mantido como técnica experimental para estudos posteriores.
 
 ---
 
-## 6. Pipeline inicial proposto
+## 7. Pipeline principal aplicado
 
-A configuração inicial selecionada para os primeiros experimentos será:
+Após a organização dos experimentos, foi mantido como pipeline principal:
 
 **Imagem original → Escala de cinza → Filtro de mediana 3 × 3 → Imagem processada**
 
-Esse pipeline foi escolhido por sua simplicidade, baixo custo computacional e preservação das dimensões espaciais da imagem.
+Essa configuração foi adotada para gerar uma versão padronizada das imagens, com alterações moderadas de intensidade e suavização.
 
-A correção de iluminação e a equalização de histograma serão avaliadas como alternativas complementares.
+O pipeline não altera a geometria das imagens.
 
-O pipeline poderá ser modificado conforme os resultados observados.
+As técnicas de correção de iluminação, equalização global e CLAHE foram utilizadas na etapa comparativa, sem substituir o pipeline principal.
 
----
-
-## 7. Estratégia de comparação
-
-As técnicas serão avaliadas individualmente e em combinações controladas.
-
-| Experimento | Transformações | Objetivo |
-|---|---|---|
-| E0 | Imagem original | Referência de comparação |
-| E1 | Escala de cinza | Avaliar o efeito da remoção de cor |
-| E2 | Escala de cinza + mediana 3 × 3 | Avaliar redução de ruído |
-| E3 | Escala de cinza + equalização global | Avaliar contraste global |
-| E4 | Escala de cinza + CLAHE | Avaliar contraste local |
-
-Inicialmente, serão realizadas comparações visuais.
-
-Posteriormente, caso exista um método de detecção e contagem disponível, os experimentos poderão ser comparados utilizando métricas de desempenho sobre o mesmo conjunto de teste.
-
-O objetivo é identificar se as transformações contribuem efetivamente para melhorar o reconhecimento e a contagem, em vez de considerar apenas a aparência visual das imagens.
+A seleção desse pipeline representa uma decisão metodológica inicial, e não uma comprovação de melhora na precisão de reconhecimento.
 
 ---
 
-## 8. Preservação das anotações
+## 8. Experimentos comparativos
 
-Uma preocupação essencial da Fase 2 será manter a correspondência entre as imagens processadas e o Ground Truth da Fase 1.
+O notebook gerou painéis de comparação contendo seis representações de imagens selecionadas.
 
-As transformações inicialmente propostas alteram valores de intensidade, mas não modificam as posições dos pixels.
+| Experimento | Técnica |
+|---|---|
+| E0 | Imagem original |
+| E1 | Escala de cinza |
+| E2 | Escala de cinza + mediana 3 × 3 |
+| E3 | Correção de iluminação |
+| E4 | Equalização global |
+| E5 | CLAHE |
 
-Portanto, quando realizadas sem redimensionamento, recorte ou alteração geométrica, as coordenadas das anotações podem ser preservadas.
+Os painéis permitiram observar diferenças visuais entre as transformações.
 
-Caso sejam introduzidas transformações geométricas futuramente, será necessário atualizar as anotações de forma correspondente.
+### 8.1. Amostra NutsNBolts
 
-Os arquivos originais e os rótulos associados deverão permanecer disponíveis para auditoria.
+Na imagem analisada, contendo parafusos, porcas e arruelas sobre fundo predominantemente claro:
+
+- A escala de cinza preservou a estrutura geral dos objetos.
+- O filtro de mediana produziu suavização discreta.
+- A versão inicial da correção de iluminação apresentou escurecimento excessivo.
+- A equalização global gerou contraste muito acentuado.
+- O CLAHE apresentou contraste local mais controlado.
+
+Essas observações motivaram a revisão da técnica de correção de iluminação.
+
+### 8.2. Amostra Rebar Counting V1
+
+Na imagem analisada, contendo estruturas metálicas e solo:
+
+- A conversão para cinza preservou os contornos principais.
+- O filtro de mediana suavizou variações locais de intensidade.
+- A correção de iluminação revisada apresentou luminosidade visualmente equilibrada.
+- A equalização global destacou intensamente as texturas do fundo.
+- O CLAHE aumentou o contraste local, inclusive em regiões do solo.
+
+A análise indicou que técnicas de aumento de contraste podem realçar tanto os objetos de interesse quanto elementos indesejados do cenário.
+
+### 8.3. Limitação da avaliação visual
+
+As observações foram realizadas sobre amostras selecionadas.
+
+Não foi demonstrado que qualquer uma das técnicas melhore a precisão de um modelo de detecção ou a qualidade das contagens.
+
+Essa conclusão dependerá de experimentos quantitativos nas etapas posteriores do projeto.
 
 ---
 
-## 9. Organização dos resultados
+## 9. Processamento dos datasets
 
-As imagens processadas e os registros experimentais serão armazenados separadamente dos datasets originais.
+Após a definição do pipeline principal, as imagens dos quatro datasets foram processadas.
 
-Estrutura proposta:
+Para cada imagem:
 
-```text
-PDI_Contagem_Objetos/
-│
-├── datasets/
-│   ├── parafusos/
-│   ├── porcas/
-│   ├── arruelas/
-│   └── vergalhoes/
-│
-└── resultados/
-    ├── fase1_multidataset/
-    │
-    └── fase2_preprocessamento/
-        └── <identificador_da_execucao>/
-            ├── comparacoes/
-            ├── imagens_processadas/
-            ├── metricas.csv
-            └── resumo.json
-```
+1. Foi realizada a leitura do arquivo original.
+2. A imagem foi convertida para escala de cinza.
+3. Foi aplicado o filtro de mediana 3 × 3.
+4. Foi gerada a imagem processada.
+5. Foram preservadas as dimensões originais.
+6. O arquivo de anotação correspondente foi mantido inalterado.
+7. A organização dos conjuntos foi preservada.
 
-A saída de cada execução deverá registrar os parâmetros utilizados, as transformações aplicadas, a quantidade de imagens processadas e eventuais falhas.
+Os resultados foram organizados em novos arquivos ZIP, sem sobrescrever os dados da Fase 1.
+
+### 9.1. Quantidade de imagens processadas
+
+| Dataset | Imagens processadas |
+|---|---:|
+| Roboflow Screws | 463 |
+| NutsNBolts | 107 |
+| Washers Hardee | 402 |
+| Rebar Counting V1 | 3 |
+| **Total** | **975** |
+
+### 9.2. Preservação das anotações
+
+| Dataset | Instâncias preservadas |
+|---|---:|
+| Roboflow Screws | 3.230 |
+| NutsNBolts | 2.832 |
+| Washers Hardee | 3.949 |
+| Rebar Counting V1 | 26 |
+| **Total** | **10.037** |
+
+Nenhuma instância anotada foi perdida durante o processamento.
 
 ---
 
 ## 10. Critérios de aceitação
 
-A implementação da Fase 2 será considerada concluída quando:
+Foram definidos critérios automáticos para verificar a integridade dos resultados.
 
-1. Todas as imagens selecionadas para processamento forem lidas corretamente.
-2. As transformações forem executadas sem erros.
-3. A quantidade de imagens processadas corresponder à quantidade esperada.
-4. As dimensões originais forem preservadas no pipeline básico.
-5. A correspondência entre imagens e anotações for mantida.
-6. Os datasets originais permanecerem inalterados.
-7. Os parâmetros de processamento forem registrados.
-8. Forem geradas comparações entre imagens originais e processadas.
-9. Os experimentos e suas conclusões forem documentados.
-10. O notebook puder ser executado novamente a partir de uma sessão limpa.
+| Critério | Finalidade |
+|---|---|
+| `contagem_imagens_ok` | Conferir a quantidade de imagens |
+| `contagem_instancias_ok` | Conferir a quantidade de objetos anotados |
+| `splits_ok` | Verificar a preservação dos conjuntos |
+| `labels_identicos` | Confirmar que os rótulos não foram modificados |
+| `dimensoes_preservadas` | Confirmar a manutenção das dimensões |
+| `zip_resultante_presente` | Verificar a geração dos arquivos processados |
 
-A escolha de um pipeline para utilização no treinamento deverá considerar também seu impacto na detecção e contagem, quando essas avaliações estiverem disponíveis.
+### Resultado da execução final
 
----
+| Dataset | Imagens | Instâncias | Critérios aprovados |
+|---|---:|---:|---|
+| Arruelas | 402 | 3.949 | 6 de 6 |
+| Parafusos | 463 | 3.230 | 6 de 6 |
+| NutsNBolts | 107 | 2.832 | 6 de 6 |
+| Vergalhões | 3 | 26 | 6 de 6 |
 
-## 11. Limitações e cuidados
+Todos os critérios retornaram `True` para os quatro datasets.
 
-Algumas considerações deverão orientar a implementação:
+**Resultado: processamento e sincronização estrutural aprovados.**
 
-- A escala de cinza pode eliminar informações úteis de cor.
-- Filtros de suavização podem remover detalhes pequenos.
-- A equalização pode aumentar a visibilidade de ruídos.
-- Melhorias visuais não garantem melhorias na detecção.
-- A avaliação não deve utilizar imagens de teste para escolher parâmetros.
-- Os mesmos procedimentos deverão ser aplicados de forma consistente entre treinamento e avaliação.
-- O dataset de vergalhões continuará insuficiente para uma avaliação estatística confiável.
-- As limitações de possíveis imagens semelhantes entre conjuntos identificadas na Fase 1 permanecem relevantes.
+Esses critérios demonstram que a quantidade de imagens, as instâncias anotadas, os conjuntos e os arquivos de saída foram preservados conforme o esperado.
+
+Eles não constituem métricas de desempenho de reconhecimento.
 
 ---
 
-## 12. Estado atual da fase
+## 11. Armazenamento e rastreabilidade
 
-**Situação: metodologia definida; implementação e validação experimental pendentes.**
+Os resultados da execução final foram armazenados no Google Drive.
 
-O pipeline inicial foi estabelecido, assim como as alternativas de pré-processamento que serão investigadas.
+Diretório da execução:
 
-A etapa seguinte consiste em implementar o notebook, executar os experimentos, registrar as evidências e verificar o atendimento aos critérios de aceitação.
+`PDI_Contagem_Objetos/resultados/fase2_preprocessamento/20261126T013732688908Z/`
 
-Após essa validação, o documento deverá ser atualizado para identificar as técnicas efetivamente utilizadas, seus parâmetros finais e os resultados obtidos.
+Esse diretório contém os arquivos gerados e os relatórios associados à execução.
+
+A organização por identificador de execução permite manter registros independentes de diferentes experimentos.
+
+A utilização dos arquivos ZIP aprovados na Fase 1 foi verificada por SHA-256, garantindo que o processamento partisse das versões esperadas.
+
+Os datasets de entrada permaneceram preservados.
 
 ---
 
-*Projeto acadêmico de Processamento Digital de Imagens — Fase 2: Pré-processamento de Imagens.*
+## 12. Limitações
+
+Apesar da aprovação nos critérios estruturais, a Fase 2 apresenta limitações importantes:
+
+1. A avaliação das técnicas foi predominantemente visual.
+2. Não foram medidas melhorias de precisão ou erro de contagem.
+3. A escala de cinza elimina informações de cor.
+4. O filtro de mediana pode suavizar características pequenas.
+5. A equalização global pode aumentar excessivamente o contraste.
+6. O CLAHE pode intensificar texturas do fundo.
+7. A correção de iluminação apresentou resultados dependentes das características da imagem.
+8. O dataset de vergalhões continua insuficiente para uma avaliação quantitativa confiável.
+9. A utilização de imagens processadas em modelos pré-treinados pode exigir adaptações ao formato de entrada.
+
+Essas limitações deverão ser consideradas durante a implementação dos algoritmos de reconhecimento e contagem.
+
+---
+
+## 13. Reprodutibilidade
+
+O código da Fase 2 deverá ser mantido no repositório, no arquivo:
+
+`notebooks/fase2_preprocessamento.ipynb`
+
+Para reproduzir a execução:
+
+1. Disponibilizar as versões finais dos datasets.
+2. Executar o notebook da Fase 1, se necessário, para gerar o manifesto de referência.
+3. Abrir o notebook da Fase 2 no Google Colab.
+4. Autorizar o acesso à pasta do Google Drive.
+5. Confirmar o diretório configurado para os datasets.
+6. Executar as células na ordem apresentada.
+7. Conferir a sincronização SHA-256.
+8. Analisar os painéis comparativos.
+9. Conferir os relatórios e os critérios de aceitação.
+
+O notebook utiliza verificações automáticas para detectar divergências estruturais entre as imagens processadas e os dados aprovados anteriormente.
+
+---
+
+## 14. Conclusão
+
+A Fase 2 implementou e avaliou técnicas de pré-processamento de imagens industriais, utilizando os quatro datasets validados na Fase 1.
+
+Foram avaliadas a conversão para escala de cinza, a filtragem por mediana, a correção de iluminação, a equalização global de histograma e o CLAHE.
+
+O pipeline principal selecionado para geração dos datasets processados foi composto por conversão para escala de cinza seguida de filtro de mediana 3 × 3.
+
+A correção de iluminação foi revisada após a identificação de escurecimento excessivo em uma amostra, permanecendo como alternativa experimental.
+
+Ao final, foram processadas **975 imagens**, preservando **10.037 instâncias anotadas**, os conjuntos de treinamento, validação e teste e as dimensões originais das imagens.
+
+Todos os critérios automáticos de aceitação estrutural foram aprovados.
+
+**A Fase 2 está concluída quanto à implementação, processamento e sincronização estrutural.**
+
+A avaliação da influência dessas transformações sobre a precisão de reconhecimento e contagem será realizada nas próximas etapas.
+
+---
+
+**Projeto:** Contagem de Objetos Industriais  
+**Disciplina:** Processamento Digital de Imagens  
+**Etapa:** Fase 2 — Pré-processamento de Imagens  
+**Status:** Implementação e validação estrutural concluídas
